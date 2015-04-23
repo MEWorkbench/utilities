@@ -1,0 +1,142 @@
+options {
+LOOKAHEAD=1;
+DEBUG_PARSER=false;
+}
+
+
+PARSER_BEGIN(Parser)
+
+
+import java.util.*;
+import java.io.*;
+
+public class Parser {
+
+    public static BufferedReader loadFile;    
+    public static Parser parser;
+    
+
+    public static void main(String args[]) throws ParseException, Exception
+	{
+
+        parser = new Parser(System.in);
+        Grammar grammar;
+	
+		while (true)
+		{
+            System.out.flush();
+            try
+			{
+                grammar = parser.Start();
+				
+            }
+			catch (ParseException x) 
+			{
+                System.out.println("Syntax Error.");
+				parser.ReInit(System.in);
+            }
+        }
+    }
+}
+
+PARSER_END(Parser)
+
+
+
+SKIP :
+{
+	    " "
+|	    "\t"
+|		"\r"	    
+}
+
+TOKEN :
+{
+    < EOL: "\n" >
+|	< EXPRESSION: (~["«","»","@","|"])+>
+|	< RULEIDLEFT: "«">
+|   < RULEIDRIGHT: "»">
+|   < RULESTART:  "@">
+|	< SEPARATOR: "|">
+
+//|	< EXPRESSION: ([" ","A"-"Z","a"-"z","0"-"9","+","=","-","*","/","{","}","(",")",".","<",">"])+>
+}
+
+Grammar Start() throws Exception:
+{ Grammar g;}
+{
+	{g = new Grammar();}
+	
+	G(g)
+	
+    {return g;}   
+
+|
+	(<EOL>|<EOF>) 
+	{return null;}
+
+}
+
+void G(Grammar grammar):
+{
+	Rule rule;
+}
+{
+	{System.out.println("G");}
+	(rule = Rule(){grammar.addRule(rule);}<RULESTART>(<EOL>)*)+
+	
+}
+
+Rule Rule():
+{
+	Token t = null;
+	Rule rule;
+	RuleOption ruleOption;
+}
+{
+	{System.out.println("Rule Start");}
+	<RULEIDLEFT> t = <EXPRESSION> {System.out.println("Token:"+ t.image);rule = new Rule(t.image);} <RULEIDRIGHT>
+	<RULESTART> RulePosition(rule) {System.out.println("Rule End");}
+	{System.out.println("Rule Id"+t.image);}
+	
+	{return rule;}
+}
+
+void RulePosition(Rule rule):
+{
+	RuleOption currentRuleOption;
+	RuleOptionPosition ruleOptionPosition =  null;
+	List<RuleOptionPosition> ruleOptionPositionList = new ArrayList<RuleOptionPosition>();
+}
+{
+	
+	   (RuleDefinition(ruleOptionPositionList) {RuleOption ruleOption = new RuleOption(ruleOptionPositionList);
+	   										   rule.addRuleOption(ruleOption);})+
+	   (<SEPARATOR>  {ruleOptionPositionList = new ArrayList<RuleOptionPosition>();} 
+	   (RuleDefinition(ruleOptionPositionList) {RuleOption newRuleOption = new RuleOption(ruleOptionPositionList);
+	   										   rule.addRuleOption(newRuleOption);})+)*
+}
+
+void RuleDefinition(List<RuleOptionPosition> ruleOptionPositionList):
+{
+	Token t;
+	Token s = null;
+	StringBuffer expressionBuffer = new StringBuffer();
+}
+{
+	{System.out.println("Jump");}
+	<RULEIDLEFT>  t = <EXPRESSION> {System.out.println(t.image);ruleOptionPositionList.add(new RuleOptionPosition(t.image,RuleOptionType.RULE_ID));}<RULEIDRIGHT>	
+|
+	{System.out.println("Expression: ");}
+	 expressionString(expressionBuffer)
+						{System.out.println(expressionBuffer.toString());ruleOptionPositionList.add(new RuleOptionPosition(expressionBuffer.toString(),RuleOptionType.STRING));}
+
+}
+
+void expressionString(StringBuffer buffer):
+{
+	Token t;
+}
+{
+	t = <EXPRESSION> {buffer.append(t.image);}
+}

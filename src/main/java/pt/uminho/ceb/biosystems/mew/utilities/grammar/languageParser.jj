@@ -1,0 +1,209 @@
+options {
+LOOKAHEAD=1;
+DEBUG_PARSER=false;
+}
+
+
+PARSER_BEGIN(Parser)
+
+
+import java.util.*;
+import java.io.*;
+
+public class Parser {
+
+    public static BufferedReader loadFile;    
+    public static Parser parser;
+    
+
+    public static void main(String args[]) throws ParseException, Exception
+	{
+
+        parser = new Parser(System.in);
+        IASTNode node;
+        
+	
+		while (true)
+		{
+			IEnvironment environment = new Environment();
+            System.out.flush();
+            try
+			{
+                node = parser.start();
+                node.evaluate(environment);
+				
+            }
+			catch (ParseException x) 
+			{
+                System.out.println("Syntax Error.");
+				parser.ReInit(System.in);
+            }
+        }
+    }
+}
+
+PARSER_END(Parser)
+
+
+
+SKIP :
+{
+        " "
+|       "\r"
+|       "\t"
+}
+
+TOKEN :
+{
+    < EOL: "\n" >
+|	< DEF: "def">
+|	< ASSIGN: "=">
+|	< LOOP: "loop">
+|	< BEGIN: "begin">
+|	< END:"end">
+|	< AND: "and">
+|	< OR: "or">
+|	< NOT: "not">
+|	< TRUE: "true">
+|   < FALSE: "false">
+|	< LPAR: "(">
+|	< RPAR: ")">
+|   < PLUS: "+" >
+|   < MINUS: "-" >
+|   < MULTIPLY: "*" >
+|   < DIVIDE: "/" >
+|   < CONSTANT: ( <DIGIT> )+ >
+|	< ID: (["A"-"Z","a"-"z"])+ | (["A"-"Z","a"-"z"] (<DIGIT>)*)+ >
+|   < #DIGIT: ["0" - "9"] >
+}
+
+IASTNode start():
+{ IASTNode node = null;}
+{
+	
+	
+	node = command() {return node;}   	
+|
+	(<EOL>|<EOF>) {return node;}
+	
+}
+
+IASTNode command():
+{
+	IASTNode node;
+	IASTNode newNode;
+}
+{
+	node = expressionDeclaration()((<EOL>)+ newNode = expressionDeclaration() {node = new ASTSeq(node,newNode);})*
+	
+	{return node;}	
+}
+
+IASTNode expressionDeclaration():
+{
+	IASTNode node;
+	IASTNode expression;
+	Token t;
+}
+{
+	node = booleanExpression() (<ASSIGN> expression= booleanExpression() {node = new ASTAssign(node,expression);})? 
+	
+	{return node;}
+|
+	<DEF> t = <ID> <ASSIGN> node = booleanExpression() {return new ASTDecl(t.image,node);}
+| 
+ 	<LOOP><LPAR> expression = booleanExpression()<RPAR>(<EOL>)*
+ 	<BEGIN>(<EOL>)*
+ 		node = expressionDeclaration()(<EOL>)+
+ 	<END>
+ 	
+}
+
+IASTNode booleanExpression():
+{
+	IASTNode leftNode;
+	IASTNode rightNode;
+}
+{
+	leftNode = 	booleanOrExpression() (<AND> rightNode = booleanOrExpression(){leftNode = new ASTAnd(leftNode,rightNode);})*
+	
+	
+	{return leftNode;}
+}
+
+IASTNode booleanOrExpression():
+{
+	IASTNode leftNode;
+	IASTNode rightNode;
+}
+{
+	leftNode = booleanNotExpression()(<OR> rightNode = booleanNotExpression(){leftNode = new ASTOr(leftNode,rightNode);} )*
+	
+	{return leftNode;} 
+}
+
+IASTNode booleanNotExpression():
+{
+	IASTNode node;
+}
+{
+	node = expression() {return node;}
+|
+	<NOT> node = expression() {return new ASTNot(node);}  		
+}
+
+
+IASTNode expression():
+{
+	IASTNode rightNode;
+	IASTNode leftNode;
+}
+{
+	leftNode = subExpression() (
+								  <PLUS> rightNode = subExpression() {leftNode = new ASTAdd(leftNode,rightNode);}
+								|  
+								  <MINUS> rightNode = subExpression() {leftNode = new ASTAdd(leftNode,rightNode);}
+								   
+								)* 
+	
+	{return leftNode;}
+}
+
+IASTNode subExpression():
+{
+	IASTNode leftNode;
+	IASTNode rightNode;
+}
+{
+	leftNode = factor() (
+							<MULTIPLY> rightNode = factor() {leftNode = new ASTMultiply(leftNode,rightNode);} 
+						|
+							<DIVIDE> rightNode = factor() {leftNode = new ASTDivide(leftNode,rightNode);}
+						
+						)* 
+						
+	{return leftNode;}
+}
+
+IASTNode factor():
+{
+	Token t;
+	IASTNode node;
+}
+{
+
+	t = <CONSTANT> {return new ASTNumber(Double.parseDouble(t.image));}
+|
+	<MINUS> t= <CONSTANT> {return new ASTNumber(Double.parseDouble(t.image)*-1);} 
+|   
+	<LPAR> node = booleanExpression() <RPAR>  { return node;}
+|
+	<TRUE>	{return new ASTBoolean(true);}	
+|	
+	<FALSE> {return new ASTBoolean(false);}
+|
+	t = <ID> {return new ASTId(t.image);} 
+}
+
+
+
