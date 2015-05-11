@@ -1,4 +1,4 @@
-package pt.uminho.ceb.biosystems.mew.utilities.datastructures;
+package pt.uminho.ceb.biosystems.mew.utilities.java;
 
 import java.util.List;
 import java.util.Set;
@@ -25,6 +25,18 @@ public class StringUtils {
 
 	public static String capitalize(String line) {
 		return Character.toUpperCase(line.charAt(0)) + line.substring(1);
+	}
+	
+	public static String concat(String sep, double... strings){
+		if(sep==null) sep="";
+		StringBuffer sb = new StringBuffer("");
+		if(strings.length>0){
+			sb.append(strings[0]);
+			if(strings.length>1) 
+				for(int i=1; i<strings.length;i++) 
+					sb.append(sep+Double.toString(strings[i]));
+		}
+		return sb.toString();
 	}
 
 	public static String concat(String sep, String... strings){
@@ -72,4 +84,36 @@ public class StringUtils {
 		
 		return StringUtils.concat(sep, strarray);
 	}
+	
+	public static String[] merge(String[] s1, String[] s2){
+		String[] toret = new String[s1.length+s2.length];
+		for(int i=0;i<s1.length; i++)
+			toret[i] = s1[i];
+		
+		for(int i=0; i<s2.length; i++)
+			toret[i+s1.length] = s2[i];
+		
+		return toret;
+	}
+	
+	public static String generateCharCode(int value/*, boolean debug*/){
+		int init = 97;
+		int numberPositions = 26;
+		
+		int valueTemp = value/numberPositions;
+		String key = "";
+		
+		
+		if(valueTemp>0){
+			
+			key += generateCharCode(valueTemp -1);
+//			System.out.println("heheh" + key);
+		}
+		
+		key += (char)(init + (value % numberPositions));
+//		if(debug)System.out.println(value + "\t" + valueTemp + "\t" + key);
+		
+		return key;
+	}
+
 }
