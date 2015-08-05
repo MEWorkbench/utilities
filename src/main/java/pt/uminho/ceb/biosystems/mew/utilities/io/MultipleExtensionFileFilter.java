@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileFilter;
 import java.util.ArrayList;
 
+import pt.uminho.ceb.biosystems.mew.utilities.java.StringUtils;
+
 public class MultipleExtensionFileFilter implements FileFilter{
 	protected ArrayList<String> allowedExtensions;
 
@@ -22,6 +24,10 @@ public class MultipleExtensionFileFilter implements FileFilter{
 				}
 		}			
 		return ret; 
+	}
+	
+	public String toString(){
+		return StringUtils.concat(",", allowedExtensions);
 	}
 
 }
