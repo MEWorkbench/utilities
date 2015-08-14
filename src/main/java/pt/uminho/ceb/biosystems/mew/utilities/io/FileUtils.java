@@ -144,7 +144,6 @@ public class FileUtils {
 	@SuppressWarnings("unchecked")
 	public static <T> T loadSerializableObject(File file) throws IOException, ClassNotFoundException{
 		
-		if(!file.exists()) return null;
 		
 		FileInputStream fin = new FileInputStream(file);
 		ObjectInputStream ois = new ObjectInputStream(fin);
