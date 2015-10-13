@@ -81,6 +81,15 @@ public enum Delimiter {
 		public String toString() {
 			return "=";
 		}
+	},
+	HASHTAG {
+		public String toString() {
+			return "#";
+		}
+		
+		public String getName() {
+			return "Hashtag ( # )";
+		}
 	};
 
 	public void setUserDelimiter(String delimiter) {
