@@ -59,6 +59,14 @@ public class StringUtils {
 		return concat(sep, strings);
 	}
 	
+	public static String concat(String sep, Object... objects){
+		String[] strings = new String[objects.length];
+		for(int i=0; i<objects.length;i++)
+			strings[i] = objects[i].toString();
+		
+		return concat(sep, strings);
+	}
+	
 	public static String concatN(String sep,int n, int... ints){
 		if(sep==null) sep="";
 		StringBuffer sb = new StringBuffer("");
