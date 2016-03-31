@@ -890,6 +890,7 @@ public class MathUtils
 	}
 	
 	public static double round(double value, int nDecimals){
+		if(((Double) value).equals(Double.NaN)) return value;
 		BigDecimal r = new BigDecimal(value);
 		return r.setScale(nDecimals, BigDecimal.ROUND_HALF_UP).doubleValue();
 	}
