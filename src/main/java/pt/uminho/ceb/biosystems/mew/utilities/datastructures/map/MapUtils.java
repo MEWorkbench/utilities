@@ -262,6 +262,16 @@ public class MapUtils {
 
 	}
 	
+	public static <K, V> Map<K, V> changeKeys(Map<K, V> map, Map<K, K> synonims){
+		Map<K, V> ret = new HashMap<K, V>();
+		
+		for(K key : map.keySet()){
+			if(synonims.containsKey(key)) ret.put(synonims.get(key), map.get(key));
+			else throw new RuntimeException("Change keys map !! key " + key + " is not in dictionary");
+		}
+		return ret;
+	}
+	
 	public static <K, V> Map<K, V> replaceValuesToSynonyms(Map<K, V> dic, Map<V, V> synonims){
 		Map<K, V> ret = new HashMap<K, V>(dic);
 		
