@@ -6,11 +6,38 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.Reader;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
 public class IOUtils {
+	
+	private static final int BUFFER_SIZE = 0x1000;
+	
+	public static byte[] toByteArray(InputStream in) throws IOException {
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		copy(in, out);
+		byte [] ret = out.toByteArray();		
+		in.close();
+		out.flush();
+		out.close();
+		return ret;
+	}
+	
+	public static long copy(InputStream from, OutputStream to) throws IOException {
+		byte[] buf = new byte[BUFFER_SIZE];
+		long total = 0;
+		while (true) {
+			int r = from.read(buf);
+			if (r == -1) {
+				break;
+			}
+			to.write(buf, 0, r);
+			total += r;
+		}
+		return total;
+	}
 
 	public static String readInputStream(InputStream is, int bufferSize) throws IOException {
 		char[] buffer = new char[bufferSize];
