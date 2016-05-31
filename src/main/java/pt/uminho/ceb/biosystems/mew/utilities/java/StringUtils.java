@@ -1,5 +1,9 @@
 package pt.uminho.ceb.biosystems.mew.utilities.java;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -42,13 +46,37 @@ public class StringUtils {
 	public static String concat(String sep, String... strings){
 		if(sep==null) sep="";
 		StringBuffer sb = new StringBuffer("");
-		if(strings.length>0){
+		strings = (String[]) removeNulls(strings);
+		if(strings!=null && strings.length>0){
 			sb.append(strings[0]);
 			if(strings.length>1) 
 				for(int i=1; i<strings.length;i++) 
 					sb.append(sep+strings[i]);
 		}
 		return sb.toString();
+	}
+	
+	@SafeVarargs
+	public static <X> X[] removeNulls(X... objects){
+		List<X> lobj = new ArrayList<X>();
+		Class<?> klazz = null;
+		for(X o : objects){
+			if(o !=null){
+				lobj.add(o);
+				if(klazz==null){
+					klazz = o.getClass();
+				}
+			}
+		}
+		
+		if(lobj.size()>0){
+			@SuppressWarnings("unchecked")
+			X[] aobj = (X[]) Array.newInstance(klazz, lobj.size());
+			lobj.toArray(aobj);
+			return aobj;			
+		}else{
+			return null;
+		}
 	}
 	
 	public static String concat(String sep, List<?> objects){

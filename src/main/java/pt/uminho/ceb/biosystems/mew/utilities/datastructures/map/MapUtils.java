@@ -1,8 +1,11 @@
 package pt.uminho.ceb.biosystems.mew.utilities.datastructures.map;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -319,5 +322,19 @@ public class MapUtils {
 		}
 		
 		return ret;
+	}
+	
+	public static void writeMap(Map<?,?> map, String file, String delimiter) throws IOException{
+		BufferedWriter bw = new BufferedWriter(new FileWriter(file));
+		int i=0;
+		for(Object key : map.keySet()){
+			bw.append(key.toString()+delimiter+map.get(key).toString());
+			if(i<map.size()){
+				bw.newLine();				
+			}
+			i++;
+		}
+		bw.flush();
+		bw.close();
 	}
 }
