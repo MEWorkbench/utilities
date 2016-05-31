@@ -29,5 +29,4 @@ public class MultipleExtensionFileFilter implements FileFilter{
 	public String toString(){
 		return StringUtils.concat(",", allowedExtensions);
 	}
-
 }
