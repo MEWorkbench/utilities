@@ -43,7 +43,10 @@ public class NormalizeMapBetweenRange extends AbstractNormalizeMap {
 	}
 	
 	protected Double normalizeBetween(double a, double b, double min, double max, double v) {
-		double nv = ((b - a) * (v - min)) / (max - min) + a;		
+		double nv = ((b - a) * (v - min)) / (max - min) + a;
+		if(Double.isNaN(nv)){
+			return a;
+		}
 		return nv;
 	}
 
