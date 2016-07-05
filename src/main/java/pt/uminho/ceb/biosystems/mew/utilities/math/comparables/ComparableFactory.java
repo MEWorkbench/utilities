@@ -15,6 +15,8 @@ public class ComparableFactory {
 		map.put(CompareEqualDouble.ID, CompareEqualDouble.class);
 		map.put(CompareSmallerEqualDouble.ID, CompareSmallerEqualDouble.class);
 		map.put(CompareSmallerDouble.ID, CompareSmallerDouble.class);
+		map.put(CompareInRangeIncludedDouble.ID, CompareInRangeIncludedDouble.class);
+		map.put(CompareInRangeExcludedDouble.ID, CompareInRangeExcludedDouble.class);
 	}
 	
 	public static void register(String klassID, Class<? extends Comparable> klass){
