@@ -112,7 +112,7 @@ public class CollectionUtils {
 	 */
 	public static <T> Set<T> getSetDiferenceValues(Collection<T> colection1, Collection<T> colection2){
 		
-		Set<T> ret = new TreeSet<T>();
+		Set<T> ret = new HashSet<T>();
 		
 		for(T value : colection1){
 			if(!colection2.contains(value))

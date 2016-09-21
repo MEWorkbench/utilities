@@ -1,6 +1,6 @@
 package pt.uminho.ceb.biosystems.mew.utilities.datastructures.exceptions;
 
-public class MapKeyAlreadyExistsException extends Exception {
+public class MapKeyAlreadyExistsException extends RuntimeException {
 
 	/**
 	 * 
