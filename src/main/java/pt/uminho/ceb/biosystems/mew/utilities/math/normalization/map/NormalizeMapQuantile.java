@@ -9,12 +9,21 @@ public class NormalizeMapQuantile extends AbstractNormalizeMap {
 	public final static String ID = "NORMALIZE_QUANTILE";
 	
 	DescriptiveStatistics stats = new DescriptiveStatistics();
+	double minValue;
+	double quantile1;
+	double quantile2;
+	double quantile3;
 	
 	@Override
 	public Map<String, Double> normalize(Map<String, Double> values) {
 		for (String key : values.keySet()) {
 			stats.addValue(values.get(key));
 		}
+		
+		minValue = stats.getMin();
+		quantile1 = stats.getPercentile(25);
+		quantile2 = stats.getPercentile(50);
+		quantile3 = stats.getPercentile(75);
 		
 		return super.normalize(values);
 	}
@@ -25,11 +34,6 @@ public class NormalizeMapQuantile extends AbstractNormalizeMap {
 	}
 	
 	protected Double decideQuantile(Double v){
-		double minValue = stats.getMin();
-		double quantile1 = stats.getPercentile(25);
-		double quantile2 = stats.getPercentile(50);
-		double quantile3 = stats.getPercentile(75);
-		
 		if(minValue <= v && v <= quantile1){
 			return 1.0;
 		}
