@@ -41,6 +41,7 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -824,5 +825,75 @@ public class FileUtils {
 		
 		return (temp);
 	}
-
+		
+	public static Map<String, Double> readStringValueTableFile(String filepath, String sep, boolean hasHeader, int keyIndex, int valueIndex, boolean nanForInvalid) throws IOException{
+		Map<String, Double> map = new HashMap<String, Double>();
+		int lineIndex = -1;
+		
+		List<String> list = FileUtils.readLines(filepath);
+		if(hasHeader){
+			list.remove(0);
+			lineIndex++;
+		}
+		
+		for (String line : list) {
+			lineIndex++;
+			if(line == null || line.isEmpty()){
+				continue;
+			}
+			String[] columns = line.split(sep);
+			
+			String key = columns[keyIndex];
+			if(key == null || key.isEmpty()){
+				throw new IOException("Line " + lineIndex + " has empty key");
+			}
+			
+			String valueS = columns[valueIndex];
+			Double value;
+			if(valueS == null || valueS.isEmpty()){
+				if(!nanForInvalid){
+					throw new NullPointerException("Line " + lineIndex + " has empty value");
+				}else{
+					value = Double.NaN;
+				}
+			}
+			
+			try{
+				value = Double.parseDouble(valueS);
+			}catch(NumberFormatException nfe){
+				if(!nanForInvalid){
+					throw new NullPointerException("Line " + lineIndex + " has invalid value: " + valueS);
+				}else{
+					value = Double.NaN;
+				}
+			}
+			
+			map.put(key, value);
+		}
+		
+		return map;
+	}
+		
+	public static Map<String, Double> readStringValueTableFile(String filepath, String sep, boolean hasHeader, int keyIndex, int valueIndex) throws IOException{
+		return readStringValueTableFile(filepath, sep, hasHeader, keyIndex, valueIndex, false);
+	}
+	
+	public static Map<String, Double> readStringValueTableFile(String filepath, String sep, boolean hasHeader) throws IOException{
+		return readStringValueTableFile(filepath, sep, hasHeader, 0, 1, false);
+	}
+	
+	public static Collection<Map<String, Double>> readMultipleStringValuesFromTableFile(String filepath, String sep, boolean hasHeader, int keyIndex, Collection<Long> valueIndexes, boolean nanForInvalid) throws IOException{
+		List<Map<String, Double>> toRet = new ArrayList<Map<String, Double>>();
+		
+		for (Long index : valueIndexes) {
+			toRet.add(readStringValueTableFile(filepath, sep, hasHeader, keyIndex, index.intValue(), nanForInvalid));
+		}
+		
+		return toRet;
+	}
+	
+	public static Collection<Map<String, Double>> readMultipleStringValuesFromTableFile(String filepath, String sep, boolean hasHeader, int keyIndex, Collection<Long> valueIndexes) throws IOException{
+		return readMultipleStringValuesFromTableFile(filepath, sep, hasHeader, keyIndex, valueIndexes, false);
+	}
+	
 }
