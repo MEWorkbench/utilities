@@ -896,4 +896,27 @@ public class FileUtils {
 		return readMultipleStringValuesFromTableFile(filepath, sep, hasHeader, keyIndex, valueIndexes, false);
 	}
 	
+	public static void saveMultipleStringValuesToTableFile(Collection<Map<String, Double>> collectionToSave, String file) throws IOException{
+		Map<String, List<Double>> toSave = new HashMap<>();
+		
+		for (Map<String, Double> map : collectionToSave) {
+			for (String key : map.keySet()) {
+				if(!toSave.containsKey(key)){
+					ArrayList<Double> newList = new ArrayList<Double>();
+					newList.add(map.get(key));
+					toSave.put(key, newList);
+				}else{
+					toSave.get(key).add(map.get(key));
+				}
+			}
+		}
+		
+		List<String> saveList = new ArrayList<String>();
+		for (String key : toSave.keySet()) {
+			String s = key + "\t" + CollectionUtils.join(toSave.get(key), "\t");
+			saveList.add(s);
+		}
+		
+		saveStringInFile(file, CollectionUtils.join(saveList, "\n"));
+	}
 }
