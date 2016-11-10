@@ -368,4 +368,52 @@ public class MapUtils {
 		
 		return retMap;
 	}
+	
+	public static Map<String, Double> sum(Map<String, Double> original, Map<String, Double> mapToSum){
+		Map<String, Double> toRet = new HashMap<>(original);
+		
+		for (String key : mapToSum.keySet()) {
+			if(original.containsKey(key)){
+				toRet.put(key, original.get(key)+mapToSum.get(key));
+			}else{
+				toRet.put(key, mapToSum.get(key));
+			}
+		}
+		
+		return toRet;
+	}
+	
+	public static Map<String, Double> sum(Map<String, Double>... maps){
+		Map<String, Double> sumMap = new HashMap<String, Double>();
+		
+		for (Map<String, Double> map : maps) {
+			sumMap = sum(sumMap, map);
+		}
+		
+		return sumMap;
+	}
+	
+	public static Map<String, Double> subtract(Map<String, Double> map1, Map<String, Double> map2){
+		Map<String, Double> toRet = new HashMap<>(map1);
+		
+		for (String key : map2.keySet()) {
+			if(map1.containsKey(key)){
+				toRet.put(key, map1.get(key)-map2.get(key));
+			}else{
+				toRet.put(key, map2.get(key));
+			}
+		}
+		
+		return toRet;
+	}
+	
+	public static Map<String, Double> subtract(Map<String, Double>... maps){
+		Map<String, Double> sumMap = new HashMap<String, Double>();
+		
+		for (Map<String, Double> map : maps) {
+			sumMap = subtract(sumMap, map);
+		}
+		
+		return sumMap;
+	}
 }
