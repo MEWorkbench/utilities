@@ -22,6 +22,8 @@
  */
 package pt.uminho.ceb.biosystems.mew.utilities.io;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -147,13 +149,15 @@ public class FileUtils {
 		
 		
 		FileInputStream fin = new FileInputStream(file);
-		ObjectInputStream ois = new ObjectInputStream(fin);
+		BufferedInputStream bis = new BufferedInputStream(fin);
+		ObjectInputStream ois = new ObjectInputStream(bis);
 		
 		Object toReturn;
 		try {
 			toReturn = ois.readObject();
 		} finally{
 			ois.close();
+			bis.close();
 			fin.close();
 		}
 		
@@ -167,13 +171,16 @@ public class FileUtils {
 	public static void saveSerializableObject(Object obj, String path) throws IOException{
 		
 		FileOutputStream fout = new FileOutputStream(path);
-	    ObjectOutputStream oos = new ObjectOutputStream(fout);
+		BufferedOutputStream bout = new BufferedOutputStream(fout);
+	    ObjectOutputStream oos = new ObjectOutputStream(bout);
 	    
 	    try{
 	    	oos.writeObject(obj);
 	    } finally{
+	    	
 		    oos.flush();
 		    oos.close();
+		    bout.close();
 		    fout.close();
 	    }
 	}
