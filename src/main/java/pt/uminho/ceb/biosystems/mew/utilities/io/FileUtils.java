@@ -926,4 +926,23 @@ public class FileUtils {
 		
 		saveStringInFile(file, CollectionUtils.join(saveList, "\n"));
 	}
+	
+	/**
+	 * Method to be used in ruby console
+	 * @param folderPath
+	 * @param withAbsolPath
+	 * @return
+	 */
+	public static List<String> getFilesFromFolder(String folderPath, boolean withAbsolPath){
+		File folder = new File(folderPath);
+		List<String> toRet = new ArrayList<>();
+		String[] allFiles = folder.list();
+		if(withAbsolPath){
+			for (String file : allFiles) {
+				toRet.add(folderPath+File.separator+file);
+			}
+		}else
+			toRet = Arrays.asList(allFiles);
+		return toRet;
+	}
 }
