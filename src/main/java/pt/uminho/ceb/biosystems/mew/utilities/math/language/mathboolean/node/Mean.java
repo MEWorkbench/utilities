@@ -51,7 +51,7 @@ public class Mean extends AbstractSyntaxTreeNode<DataTypeEnum,IValue> {
 		IValue leftTermResultValue = childNodeArray[0].evaluate(environment);
 		IValue rightTermResultValue = childNodeArray[1].evaluate(environment);
 		
-		double resultValue = (leftTermResultValue.getNumericValue() + rightTermResultValue.getNumericValue()) / 2;
+		double resultValue = ((Double)leftTermResultValue.getValue() + (Double)rightTermResultValue.getValue()) / 2;
 		return new DoubleValue(resultValue);
 	}
 

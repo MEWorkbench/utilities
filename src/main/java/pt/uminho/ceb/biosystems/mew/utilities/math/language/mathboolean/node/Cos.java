@@ -49,7 +49,7 @@ public class Cos extends AbstractSyntaxTreeNode<DataTypeEnum,IValue> {
 	@Override
 	public IValue evaluate(IEnvironment<IValue> environment){
 		IValue term = childNodeArray[0].evaluate(environment);
-		double result = Math.cos(term.getNumericValue());
+		double result = Math.cos((Double)term.getValue());
         return new DoubleValue(result);
 	}
 

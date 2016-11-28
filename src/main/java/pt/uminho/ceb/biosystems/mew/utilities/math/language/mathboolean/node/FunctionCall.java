@@ -48,7 +48,7 @@ public class FunctionCall extends AbstractSyntaxTreeNode<DataTypeEnum, IValue> {
 	public IValue evaluate(IEnvironment<IValue> environment){
 		IEnvironment<IValue> newEnvironment = new Environment<IValue>((Environment<IValue>) environment);
 		IValue functionClosureValue = newEnvironment.find(functionName);
-		Closure functionClosure = functionClosureValue.getClosureValue();
+		Closure functionClosure = (Closure)functionClosureValue.getValue();
 		AbstractSyntaxTree<DataTypeEnum,IValue> functionBody = functionClosure.getFunctionBody();
 		return functionBody.evaluate(newEnvironment);
 	}

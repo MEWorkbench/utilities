@@ -51,12 +51,12 @@ public class Maximum extends AbstractSyntaxTreeNode<DataTypeEnum, IValue> {
 		IValue rightTermResultValue = childNodeArray[1].evaluate(environment);
 
 		double resultValue = Double.NaN;
-		if (Double.isNaN(leftTermResultValue.getNumericValue()))
-			resultValue = rightTermResultValue.getNumericValue();
-		else if (Double.isNaN(rightTermResultValue.getNumericValue()))
-			resultValue = leftTermResultValue.getNumericValue();
+		if (Double.isNaN((Double)leftTermResultValue.getValue()))
+			resultValue = (Double)rightTermResultValue.getValue();
+		else if (Double.isNaN((Double)rightTermResultValue.getValue()))
+			resultValue = (Double)leftTermResultValue.getValue();
 		else
-			resultValue = Math.max(leftTermResultValue.getNumericValue(), rightTermResultValue.getNumericValue());
+			resultValue = Math.max((Double)leftTermResultValue.getValue(), (Double)rightTermResultValue.getValue());
 		return new DoubleValue(resultValue);
 	}
 

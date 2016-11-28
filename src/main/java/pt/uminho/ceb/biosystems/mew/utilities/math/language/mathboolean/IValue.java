@@ -22,8 +22,6 @@
  */
 package pt.uminho.ceb.biosystems.mew.utilities.math.language.mathboolean;
 
-public interface IValue {
-	Boolean getBooleanValue();
-	Double getNumericValue();
-	Closure getClosureValue();
+public interface IValue {	
+	Object getValue();
 }

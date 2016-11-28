@@ -52,7 +52,7 @@ public class Multiplication  extends AbstractSyntaxTreeNode<DataTypeEnum,IValue>
     public IValue evaluate(IEnvironment<IValue> environment){
         IValue leftTermResult = childNodeArray[0].evaluate(environment);
         IValue rightTermResult = childNodeArray[1].evaluate(environment);
-        double result = leftTermResult.getNumericValue() * rightTermResult.getNumericValue();
+        Double result = (Double)leftTermResult.getValue() * (Double)rightTermResult.getValue();
         return new DoubleValue(result);
     }
 

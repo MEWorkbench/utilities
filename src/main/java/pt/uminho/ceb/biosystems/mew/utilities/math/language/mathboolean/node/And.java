@@ -55,7 +55,7 @@ public class And extends AbstractSyntaxTreeNode<DataTypeEnum,IValue> {
     public IValue evaluate(IEnvironment<IValue> environment) {
         IValue leftTermResultValue = childNodeArray[0].evaluate(environment);
         IValue rightTermResultValue = childNodeArray[1].evaluate(environment);
-        boolean resultValue = leftTermResultValue.getBooleanValue() && rightTermResultValue.getBooleanValue();
+        Boolean resultValue = (Boolean)leftTermResultValue.getValue() && (Boolean)rightTermResultValue.getValue();
         return new BooleanValue(resultValue);
     }
 
