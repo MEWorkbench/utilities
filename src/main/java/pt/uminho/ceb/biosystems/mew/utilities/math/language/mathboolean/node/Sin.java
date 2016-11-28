@@ -48,7 +48,7 @@ public class Sin extends AbstractSyntaxTreeNode<DataTypeEnum,IValue> {
 	@Override
 	public IValue evaluate(IEnvironment<IValue> environment){
 		IValue term = childNodeArray[0].evaluate(environment);
-		double resultValue = Math.sin(term.getNumericValue());
+		Double resultValue = Math.sin((Double)term.getValue());
         return new DoubleValue(resultValue);
 	}
 

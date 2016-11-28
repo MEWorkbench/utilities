@@ -37,6 +37,12 @@ import pt.uminho.ceb.biosystems.mew.utilities.math.language.mathboolean.IValue;
 public class Variable extends AbstractSyntaxTreeNode<DataTypeEnum,IValue> {
     protected String variableId;
 
+    
+    public Variable(String variableId, DataTypeEnum o) {
+    	super(o);
+        this.variableId = variableId;
+    }
+    
     public Variable(String variableId) {
         super(DataTypeEnum.DOUBLE);
         this.variableId = variableId;

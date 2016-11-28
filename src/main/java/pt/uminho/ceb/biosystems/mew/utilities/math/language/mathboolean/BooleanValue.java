@@ -30,19 +30,24 @@ public class BooleanValue implements IValue {
 	}
 	
 	@Override
-	public Boolean getBooleanValue() {
+	public Object getValue() {
 		return value;
 	}
-
-	@Override
-	public Double getNumericValue() {
-		return null;
-	}
-
-	@Override
-	public Closure getClosureValue() {
-		return null;
-	}
+	
+//	@Override
+//	public Boolean getBooleanValue() {
+//		return value;
+//	}
+//
+//	@Override
+//	public Double getNumericValue() {
+//		return null;
+//	}
+//
+//	@Override
+//	public Closure getClosureValue() {
+//		return null;
+//	}
 	
 	public String toString(){
 		return Boolean.toString(value);

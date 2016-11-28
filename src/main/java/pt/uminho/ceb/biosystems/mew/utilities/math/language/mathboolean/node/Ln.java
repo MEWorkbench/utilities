@@ -48,7 +48,7 @@ public class Ln extends AbstractSyntaxTreeNode<DataTypeEnum,IValue> {
 	@Override
 	public IValue evaluate(IEnvironment<IValue> environment){
 		IValue term = childNodeArray[0].evaluate(environment);
-		double result = Math.log(term.getNumericValue());
+		double result = Math.log((Double)term.getValue());
         return new DoubleValue(result);
 	}
 

@@ -31,5 +31,6 @@ package pt.uminho.ceb.biosystems.mew.utilities.math.language.mathboolean;
  */
 public enum DataTypeEnum {
     BOOLEAN,
-    DOUBLE;
+    DOUBLE,
+	OTHER;
 }

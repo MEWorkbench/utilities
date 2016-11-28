@@ -64,7 +64,7 @@ public class Parser implements ParserConstants {
 //                    enviorment.associate("fru(e)>0", new BooleanValue(false));
                     
                     ast = parser.Start();
-                    System.out.println(ast.evaluate(enviorment).getBooleanValue());
+                    System.out.println(ast.evaluate(enviorment).getValue());
 
             }
             catch(ParseException x) {

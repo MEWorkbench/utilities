@@ -52,7 +52,7 @@ public class Plus extends AbstractSyntaxTreeNode<DataTypeEnum,IValue> {
     public IValue evaluate(IEnvironment<IValue> environment){
         IValue leftTermResult = childNodeArray[0].evaluate(environment);
         IValue rightTermResult = childNodeArray[1].evaluate(environment);
-        double resultValue = leftTermResult.getNumericValue() + rightTermResult.getNumericValue();
+        Double resultValue = (Double)leftTermResult.getValue() + (Double)rightTermResult.getValue();
         return new DoubleValue(resultValue);
     }
 

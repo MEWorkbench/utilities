@@ -48,7 +48,7 @@ public class Not extends AbstractSyntaxTreeNode<DataTypeEnum,IValue>{
 	@Override
 	public IValue evaluate(IEnvironment<IValue> environment) {
 		IValue node = childNodeArray[0].evaluate(environment);
-		boolean resultValue = !node.getBooleanValue();
+		Boolean resultValue = !(Boolean)node.getValue();
 		return new BooleanValue(resultValue);
 	}
 

@@ -53,7 +53,7 @@ public class Or extends AbstractSyntaxTreeNode<DataTypeEnum,IValue>{
 	public IValue evaluate(IEnvironment<IValue> environment) {
 		IValue leftTermResult = childNodeArray[0].evaluate(environment);
         IValue rightTermResult = childNodeArray[1].evaluate(environment);
-        boolean resultValue = leftTermResult.getBooleanValue() || rightTermResult.getBooleanValue();
+        Boolean resultValue = (Boolean)leftTermResult.getValue() || (Boolean)rightTermResult.getValue();
         return new BooleanValue(resultValue);
 	}
 

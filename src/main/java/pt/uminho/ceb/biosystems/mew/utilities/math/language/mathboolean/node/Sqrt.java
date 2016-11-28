@@ -47,7 +47,7 @@ public class Sqrt extends AbstractSyntaxTreeNode<DataTypeEnum,IValue> {
 	@Override
 	public IValue evaluate(IEnvironment<IValue> environment){
 		IValue term = childNodeArray[0].evaluate(environment);
-		double resultValue = Math.sqrt(term.getNumericValue());
+		Double resultValue = Math.sqrt((Double)term.getValue());
         return new DoubleValue(resultValue);
 	}
 
