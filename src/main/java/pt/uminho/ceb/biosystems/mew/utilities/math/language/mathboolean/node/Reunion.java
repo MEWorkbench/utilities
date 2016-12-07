@@ -23,6 +23,7 @@
 package pt.uminho.ceb.biosystems.mew.utilities.math.language.mathboolean.node;
 
 import java.util.Collection;
+import java.util.List;
 
 import pt.uminho.ceb.biosystems.mew.utilities.datastructures.collection.CollectionUtils;
 
@@ -54,12 +55,31 @@ public class Reunion extends AbstractSyntaxTreeNode<DataTypeEnum,IValue> {
         childNodeArrayType[1] = DataTypeEnum.OTHER;
     	
     }
+	
+	public Reunion(List<AbstractSyntaxTreeNode> nodeList){
+    	super(DataTypeEnum.OTHER);
+        childNodeArray = new AbstractSyntaxTreeNode[nodeList.size()];
+        childNodeArrayType = new DataTypeEnum[nodeList.size()];
+
+    	for(int i=0;i<nodeList.size();i++)
+    	{
+    		childNodeArray[i] = nodeList.get(i);
+            childNodeArrayType[i] = DataTypeEnum.OTHER;
+
+    	}    	
+    }
 
     @Override
     public IValue evaluate(IEnvironment<IValue> environment) {
-        IValue leftTermResultValue = childNodeArray[0].evaluate(environment);
-        IValue rightTermResultValue = childNodeArray[1].evaluate(environment);
-        return new OtherValue<Collection>(CollectionUtils.getReunionValues((Collection)leftTermResultValue.getValue(), (Collection)rightTermResultValue.getValue()));
+        IValue based = childNodeArray[0].evaluate(environment);
+        Collection basedcollection = (Collection)based.getValue();
+    	for(int i=1;i<childNodeArray.length;i++)
+    	{
+            IValue other = childNodeArray[i].evaluate(environment);
+            basedcollection = CollectionUtils.getReunionValues(basedcollection, (Collection)other.getValue());
+
+    	}
+        return new OtherValue<Collection>(basedcollection);
     }
 
     @Override
