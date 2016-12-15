@@ -96,7 +96,7 @@ public class CollectionUtils {
 	 */
 	public static <T> Set<T> getIntersectionValues(Collection<T> colection1, Collection<T> colection2){
 		
-		Set<T> ret = new TreeSet<T>();
+		Set<T> ret = new HashSet<T>();
 		if(colection1 == null || colection2 == null) return ret;
 		
 		for(T value : colection1){
@@ -104,6 +104,12 @@ public class CollectionUtils {
 				ret.add(value);
 		}
 		return ret;
+	}
+	
+	public static <T> Set<T> getSortedIntersectionValues(Collection<T> colection1, Collection<T> colection2){
+		Set<T> set = new TreeSet<>();
+		set.addAll(getIntersectionValues(colection1, colection2));
+		return set;
 	}
 	
 	
