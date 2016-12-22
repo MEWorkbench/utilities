@@ -22,6 +22,7 @@
  */
 package pt.uminho.ceb.biosystems.mew.utilities.math.language.mathboolean.node;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -47,35 +48,38 @@ public class Reunion extends AbstractSyntaxTreeNode<DataTypeEnum,IValue> {
 
 	public Reunion(AbstractSyntaxTreeNode left, AbstractSyntaxTreeNode right){
     	super(DataTypeEnum.OTHER);
-        childNodeArray = new AbstractSyntaxTreeNode[2];
-        childNodeArray[0] = left;
-        childNodeArray[1] =right;
-        childNodeArrayType = new DataTypeEnum[2];
-        childNodeArrayType[0] = DataTypeEnum.OTHER;
-        childNodeArrayType[1] = DataTypeEnum.OTHER;
+        childNodeArray = new ArrayList<>();
+        childNodeArray.add(0,left);
+        childNodeArray.add(1,right);
+        childNodeArrayType = new ArrayList<>();
+        childNodeArrayType.add(0, DataTypeEnum.OTHER);
+        childNodeArrayType.add(1, DataTypeEnum.OTHER);
     	
     }
 	
 	public Reunion(List<AbstractSyntaxTreeNode> nodeList){
     	super(DataTypeEnum.OTHER);
-        childNodeArray = new AbstractSyntaxTreeNode[nodeList.size()];
-        childNodeArrayType = new DataTypeEnum[nodeList.size()];
+    	setNodesList(nodeList);    	
+    }
+
+	public void setNodesList(List<AbstractSyntaxTreeNode> nodeList) {
+		childNodeArray = new ArrayList<>();
+        childNodeArrayType = new ArrayList<>();
 
     	for(int i=0;i<nodeList.size();i++)
     	{
-    		childNodeArray[i] = nodeList.get(i);
-            childNodeArrayType[i] = DataTypeEnum.OTHER;
-
-    	}    	
-    }
+    		childNodeArray.add(i, nodeList.get(i));
+            childNodeArrayType.add(i, DataTypeEnum.OTHER);
+    	}
+	}
 
     @Override
     public IValue evaluate(IEnvironment<IValue> environment) {
-        IValue based = childNodeArray[0].evaluate(environment);
+        IValue based = childNodeArray.get(0).evaluate(environment);
         Collection basedcollection = (Collection)based.getValue();
-    	for(int i=1;i<childNodeArray.length;i++)
+    	for(int i=1;i<childNodeArray.size();i++)
     	{
-            IValue other = childNodeArray[i].evaluate(environment);
+            IValue other = childNodeArray.get(i).evaluate(environment);
             basedcollection = CollectionUtils.getReunionValues(basedcollection, (Collection)other.getValue());
 
     	}
@@ -89,15 +93,15 @@ public class Reunion extends AbstractSyntaxTreeNode<DataTypeEnum,IValue> {
 
     @Override
     public String toString() {
-        String leftTermString = childNodeArray[0].toString();
-        String rightTermString = childNodeArray[1].toString();
+        String leftTermString = childNodeArray.get(0).toString();
+        String rightTermString = childNodeArray.get(1).toString();
         return  "( " +leftTermString + " and " +rightTermString + " )";
     }
     
     @Override
     public AbstractSyntaxTreeNode<DataTypeEnum,IValue> newInstance() {
-    	AbstractSyntaxTreeNode<DataTypeEnum,IValue> leftAST = childNodeArray[0];
-    	AbstractSyntaxTreeNode<DataTypeEnum,IValue> rightAST = childNodeArray[1];
+    	AbstractSyntaxTreeNode<DataTypeEnum,IValue> leftAST = childNodeArray.get(0);
+    	AbstractSyntaxTreeNode<DataTypeEnum,IValue> rightAST = childNodeArray.get(1);
         return new Reunion(leftAST,rightAST);
     }
 
