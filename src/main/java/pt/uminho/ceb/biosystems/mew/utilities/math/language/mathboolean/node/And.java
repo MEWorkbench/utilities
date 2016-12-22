@@ -22,6 +22,8 @@
  */
 package pt.uminho.ceb.biosystems.mew.utilities.math.language.mathboolean.node;
 
+import java.util.ArrayList;
+
 /**
  * Created by IntelliJ IDEA.
  * User: pedro
@@ -42,19 +44,20 @@ public class And extends AbstractSyntaxTreeNode<DataTypeEnum,IValue> {
 
 	public And(AbstractSyntaxTreeNode left, AbstractSyntaxTreeNode right){
     	super(DataTypeEnum.BOOLEAN);
-        childNodeArray = new AbstractSyntaxTreeNode[2];
-        childNodeArray[0] = left;
-        childNodeArray[1] =right;
-        childNodeArrayType = new DataTypeEnum[2];
-        childNodeArrayType[0] = DataTypeEnum.BOOLEAN;
-        childNodeArrayType[1] = DataTypeEnum.BOOLEAN;
+        childNodeArray = new ArrayList<>();
+        childNodeArray.add(0,left);
+        childNodeArray.add(1,right);
+
+        childNodeArrayType = new ArrayList<>();
+        childNodeArrayType.add(0,DataTypeEnum.BOOLEAN);
+        childNodeArrayType.add(1,DataTypeEnum.BOOLEAN);
     	
     }
 
     @Override
     public IValue evaluate(IEnvironment<IValue> environment) {
-        IValue leftTermResultValue = childNodeArray[0].evaluate(environment);
-        IValue rightTermResultValue = childNodeArray[1].evaluate(environment);
+        IValue leftTermResultValue = childNodeArray.get(0).evaluate(environment);
+        IValue rightTermResultValue = childNodeArray.get(1).evaluate(environment);
         Boolean resultValue = (Boolean)leftTermResultValue.getValue() && (Boolean)rightTermResultValue.getValue();
         return new BooleanValue(resultValue);
     }
@@ -66,15 +69,15 @@ public class And extends AbstractSyntaxTreeNode<DataTypeEnum,IValue> {
 
     @Override
     public String toString() {
-        String leftTermString = childNodeArray[0].toString();
-        String rightTermString = childNodeArray[1].toString();
+        String leftTermString = childNodeArray.get(0).toString();
+        String rightTermString = childNodeArray.get(1).toString();
         return  "( " +leftTermString + " and " +rightTermString + " )";
     }
     
     @Override
     public AbstractSyntaxTreeNode<DataTypeEnum,IValue> newInstance() {
-    	AbstractSyntaxTreeNode<DataTypeEnum,IValue> leftAST = childNodeArray[0];
-    	AbstractSyntaxTreeNode<DataTypeEnum,IValue> rightAST = childNodeArray[1];
+    	AbstractSyntaxTreeNode<DataTypeEnum,IValue> leftAST = childNodeArray.get(0);
+    	AbstractSyntaxTreeNode<DataTypeEnum,IValue> rightAST = childNodeArray.get(1);
         return new And(leftAST,rightAST);
     }
 

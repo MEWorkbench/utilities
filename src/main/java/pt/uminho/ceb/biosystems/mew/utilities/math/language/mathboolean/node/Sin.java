@@ -22,6 +22,8 @@
  */
 package pt.uminho.ceb.biosystems.mew.utilities.math.language.mathboolean.node;
 
+import java.util.ArrayList;
+
 import pt.uminho.ceb.biosystems.mew.utilities.grammar.syntaxtree.AbstractSyntaxTreeNode;
 import pt.uminho.ceb.biosystems.mew.utilities.grammar.syntaxtree.IEnvironment;
 import pt.uminho.ceb.biosystems.mew.utilities.math.language.mathboolean.DataTypeEnum;
@@ -32,22 +34,22 @@ public class Sin extends AbstractSyntaxTreeNode<DataTypeEnum,IValue> {
 
 	public Sin(){
 		super(DataTypeEnum.DOUBLE);
-		 childNodeArray = new AbstractSyntaxTreeNode[1];
-		 childNodeArrayType = new DataTypeEnum[1];
-	     childNodeArrayType[0] = DataTypeEnum.DOUBLE;
+		childNodeArray = new ArrayList<>();
+		childNodeArrayType = new ArrayList<>();
+		childNodeArrayType.add(0,DataTypeEnum.DOUBLE);
 	}
-	
+
 	public Sin(AbstractSyntaxTreeNode<DataTypeEnum,IValue> term){
-        super(DataTypeEnum.DOUBLE);
-        childNodeArray = new AbstractSyntaxTreeNode[1];
-        childNodeArray[0] = term;
-        childNodeArrayType = new DataTypeEnum[1];
-        childNodeArrayType[0] = DataTypeEnum.DOUBLE;
-    }
+		super(DataTypeEnum.DOUBLE);
+		childNodeArray = new ArrayList<>();
+		childNodeArray.add(0, term);;
+		childNodeArrayType = new ArrayList<>();
+		childNodeArrayType.add(0,DataTypeEnum.DOUBLE);
+	}
 
 	@Override
 	public IValue evaluate(IEnvironment<IValue> environment){
-		IValue term = childNodeArray[0].evaluate(environment);
+		IValue term = childNodeArray.get(0).evaluate(environment);
 		Double resultValue = Math.sin((Double)term.getValue());
         return new DoubleValue(resultValue);
 	}
@@ -59,7 +61,7 @@ public class Sin extends AbstractSyntaxTreeNode<DataTypeEnum,IValue> {
 
 	@Override
 	public String toString() {
-		String termString = childNodeArray[0].toString();
+		String termString = childNodeArray.get(0).toString();
 		return "Sin("+termString+")";
 	}
 
