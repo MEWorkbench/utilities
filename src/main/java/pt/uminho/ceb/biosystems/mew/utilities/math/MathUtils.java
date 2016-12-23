@@ -315,7 +315,9 @@ public class MathUtils
 		}
 		
 		return Pair.createPair(min, max);
-	}	
+	}
+	
+	
 	
 
 	public static double maxarr(double [] a)
@@ -387,6 +389,17 @@ public class MathUtils
 		for(double d: double_array)
 			sum+=Math.abs(d);
 		
+		return sum;
+	}
+	
+	// sums the values of a Collection<Number> 
+	public static <T extends Number> Double sumNumberCollection(Collection<T> numbers){
+		double sum = 0.0;
+	
+		for(T t : numbers){
+			sum+=t.doubleValue();			
+		
+		}
 		return sum;
 	}
 	

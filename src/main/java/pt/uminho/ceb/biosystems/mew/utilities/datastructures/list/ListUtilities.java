@@ -54,6 +54,17 @@ public class ListUtilities {
 		return toFill;
 	}
 	
+	public static int[] getIntegerRangeArray(int begin, int end, int step){
+		List<Integer> list = getIntegerRangeList(begin, end, step);
+		int[] array = new int[list.size()];
+		
+		for(int i=0; i<list.size(); i++){
+			array[i] = list.get(i);
+		}
+		
+		return array;
+	}
+	
 	public static void fillIntegersByRange(List<Integer> toFill, int begin, int end, int step){
 		for(int i = begin; i<= end; i+=step)
 			toFill.add(i);		
