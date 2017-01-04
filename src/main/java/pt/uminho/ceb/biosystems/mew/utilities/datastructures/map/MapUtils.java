@@ -5,6 +5,7 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -333,7 +334,12 @@ public class MapUtils {
 	}
 	
 	public static void writeMap(Map<?, ?> map, String file, String delimiter) throws IOException {
-		BufferedWriter bw = new BufferedWriter(new FileWriter(file));
+		writeMap(map,new FileWriter(file), delimiter);
+
+	}
+	
+	public static void writeMap(Map<?, ?> map, Writer w, String delimiter) throws IOException {
+		BufferedWriter bw = new BufferedWriter(w);
 		int i = 0;
 		for (Object key : map.keySet()) {
 			bw.append(key.toString() + delimiter + map.get(key).toString());
@@ -345,6 +351,7 @@ public class MapUtils {
 		bw.flush();
 		bw.close();
 	}
+	
 	
 	/**
 	 * Computes the intersection between two maps.

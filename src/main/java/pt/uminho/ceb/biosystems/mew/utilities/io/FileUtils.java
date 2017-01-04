@@ -304,11 +304,12 @@ public class FileUtils {
 		return ret;
 	}
 	
-	public static void remove(String path) {
+	public static boolean remove(String path) {
 		if(path!=null){
 			File f = new File(path);
-			delete(f);
+			return delete(f);
 		}
+		return false;
 	}
 	
 	public static boolean delete(File file){
