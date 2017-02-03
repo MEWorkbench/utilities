@@ -302,7 +302,7 @@ public class MapUtils {
 	}
 	
 	public static <K, V> Map<K, V> subMap(Map<K, V> info,
-			Set<K> fluxes, Map<K, V> collector) {
+			Collection<K> fluxes, Map<K, V> collector) {
 			
 		if (collector == null)
 			collector = new HashMap<K, V>();
