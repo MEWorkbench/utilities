@@ -307,7 +307,7 @@ public class MapUtils {
 		if (collector == null)
 			collector = new HashMap<K, V>();
 			
-		for (K key : info.keySet()) {
+		for (K key : fluxes) {
 			collector.put(key, info.get(key));
 		}
 		
