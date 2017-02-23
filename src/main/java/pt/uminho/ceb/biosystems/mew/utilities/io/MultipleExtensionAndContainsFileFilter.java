@@ -36,10 +36,14 @@ public class MultipleExtensionAndContainsFileFilter implements FileFilter {
 			for (String ext : allowedExtensions) {				
 				String fileName = arg0.getName();
 				if (fileName.endsWith(ext)) {
-					for (String cont : containsList) {
-						if(!fileName.contains(cont)){
-							return false;
-						}
+					if(containsList==null || containsList.isEmpty()){
+						return true;
+					}else{
+						for (String cont : containsList) {
+							if(!fileName.contains(cont)){
+								return false;
+							}
+						}						
 					}
 					return true;
 				}
