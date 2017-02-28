@@ -149,7 +149,7 @@ public class CollectionUtils {
 	public static List<String> parseSeparatedString(String input, String delim){
 		List<String> output = new ArrayList<String>();
 		
-		String[] data = input.split(delim);
+		String[] data = input.split(delim, -1);
 		
 		for(String d : data){
 			output.add(d.trim());
