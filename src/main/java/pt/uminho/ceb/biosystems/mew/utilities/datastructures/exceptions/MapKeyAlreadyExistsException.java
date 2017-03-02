@@ -23,4 +23,7 @@ public class MapKeyAlreadyExistsException extends RuntimeException {
 		this.value = value;
 	}
 
+	public Object getKey() {
+		return key;
+	}
 }
