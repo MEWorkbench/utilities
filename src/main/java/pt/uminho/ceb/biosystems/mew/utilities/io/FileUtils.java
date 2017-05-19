@@ -946,4 +946,9 @@ public class FileUtils {
 			toRet = Arrays.asList(allFiles);
 		return toRet;
 	}
+
+	public static String createPath(String... dir) {
+		String path = CollectionUtils.join(dir, File.separator);
+		return path;
+	}
 }
