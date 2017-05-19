@@ -18,6 +18,7 @@ import java.util.Set;
 import pt.uminho.ceb.biosystems.mew.utilities.datastructures.collection.CollectionUtils;
 import pt.uminho.ceb.biosystems.mew.utilities.datastructures.collection.IMapper;
 import pt.uminho.ceb.biosystems.mew.utilities.datastructures.exceptions.MapKeyAlreadyExistsException;
+import pt.uminho.ceb.biosystems.mew.utilities.java.StringUtils;
 
 public class MapUtils {
 	
@@ -28,6 +29,30 @@ public class MapUtils {
 			}
 		else
 			System.out.println("\t" + null);
+	}
+	
+	public static void prettyPrintAllLevels(Map<?, ?> map) {
+		prettyPrintAllLevels(map, ": ");
+	}
+	
+	public static void prettyPrintAllLevels(Map<?, ?> map, String sep) {
+		if (map != null)
+			prettyPrintLevel(map, sep, 0);
+		else
+			System.out.println("\t" + null);
+	}
+	
+	protected static void prettyPrintLevel(Map<?, ?> map, String sep, int level) {
+		
+		for (Object s : map.keySet()) {
+			Object o = map.get(s);
+			if (Map.class.isAssignableFrom(o.getClass())) {
+				System.out.println(StringUtils.repeat("\t", level) + s + ":");
+				prettyPrintLevel((Map<?, ?>) o, sep, level+1);
+			} else {				
+				System.out.println(StringUtils.repeat("\t", level) + s + sep + o);				
+			}
+		}
 	}
 	
 	public static void prettyPrint(Map<?, ?> map) {
@@ -127,7 +152,7 @@ public class MapUtils {
 				String p = nullValue + "";
 				if (nv != null && nv.get(rid) != null)
 					p = nv.get(rid) + "";
-					
+				
 				info += "\t " + p;
 			}
 			
@@ -303,10 +328,10 @@ public class MapUtils {
 	
 	public static <K, V> Map<K, V> subMap(Map<K, V> info,
 			Set<K> fluxes, Map<K, V> collector) {
-			
+		
 		if (collector == null)
 			collector = new HashMap<K, V>();
-			
+		
 		for (K key : info.keySet()) {
 			collector.put(key, info.get(key));
 		}
@@ -334,8 +359,8 @@ public class MapUtils {
 	}
 	
 	public static void writeMap(Map<?, ?> map, String file, String delimiter) throws IOException {
-		writeMap(map,new FileWriter(file), delimiter);
-
+		writeMap(map, new FileWriter(file), delimiter);
+		
 	}
 	
 	public static void writeMap(Map<?, ?> map, Writer w, String delimiter) throws IOException {
@@ -351,7 +376,6 @@ public class MapUtils {
 		bw.flush();
 		bw.close();
 	}
-	
 	
 	/**
 	 * Computes the intersection between two maps.
@@ -376,13 +400,13 @@ public class MapUtils {
 		return retMap;
 	}
 	
-	public static Map<String, Double> sum(Map<String, Double> original, Map<String, Double> mapToSum){
+	public static Map<String, Double> sum(Map<String, Double> original, Map<String, Double> mapToSum) {
 		Map<String, Double> toRet = new HashMap<>(original);
 		
 		for (String key : mapToSum.keySet()) {
-			if(original.containsKey(key)){
-				toRet.put(key, original.get(key)+mapToSum.get(key));
-			}else{
+			if (original.containsKey(key)) {
+				toRet.put(key, original.get(key) + mapToSum.get(key));
+			} else {
 				toRet.put(key, mapToSum.get(key));
 			}
 		}
@@ -390,7 +414,7 @@ public class MapUtils {
 		return toRet;
 	}
 	
-	public static Map<String, Double> sum(Map<String, Double>... maps){
+	public static Map<String, Double> sum(Map<String, Double>... maps) {
 		Map<String, Double> sumMap = new HashMap<String, Double>();
 		
 		for (Map<String, Double> map : maps) {
@@ -400,13 +424,13 @@ public class MapUtils {
 		return sumMap;
 	}
 	
-	public static Map<String, Double> subtract(Map<String, Double> map1, Map<String, Double> map2){
+	public static Map<String, Double> subtract(Map<String, Double> map1, Map<String, Double> map2) {
 		Map<String, Double> toRet = new HashMap<>(map1);
 		
 		for (String key : map2.keySet()) {
-			if(map1.containsKey(key)){
-				toRet.put(key, map1.get(key)-map2.get(key));
-			}else{
+			if (map1.containsKey(key)) {
+				toRet.put(key, map1.get(key) - map2.get(key));
+			} else {
 				toRet.put(key, map2.get(key));
 			}
 		}
@@ -414,7 +438,7 @@ public class MapUtils {
 		return toRet;
 	}
 	
-	public static Map<String, Double> subtract(Map<String, Double>... maps){
+	public static Map<String, Double> subtract(Map<String, Double>... maps) {
 		Map<String, Double> sumMap = new HashMap<String, Double>();
 		
 		for (Map<String, Double> map : maps) {
