@@ -483,10 +483,14 @@ public class CollectionUtils {
 
 	public static <T> Set<T> aggregate(Collection<? extends Collection<T>> values) {
 		Set<T> ret = new HashSet<T>();
-		for(Collection<T> v : values)
-			if(v!=null) ret.addAll(v);
+		aggregate(values, ret);
 		
 		return ret;
+	}
+	
+	public static <T> void aggregate(Collection<? extends Collection<T>> values, Collection<T> toAdd) {
+		for(Collection<T> v : values)
+			if(v!=null) toAdd.addAll(v);
 	}
 
 	public static <T extends Object> T getArrayValue(T[] data, int i) {
