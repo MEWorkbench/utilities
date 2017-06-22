@@ -37,9 +37,14 @@ import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.file.Files;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -48,7 +53,9 @@ import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.StringTokenizer;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
@@ -951,4 +958,76 @@ public class FileUtils {
 		String path = CollectionUtils.join(dir, File.separator);
 		return path;
 	}
+	
+	
+	public static void listFilesRecursively(File file, Writer w , IFileInformation info) throws IOException{
+//		if(!folder.isDirectory()) throw new RuntimeException("The Parameter folder must be a folder");
+		
+		Queue<File> folders = new LinkedBlockingQueue<>();
+		folders.add(file);
+		listFilesRecursivelyAux(folders, w, info);
+	}
+	
+	public static void listFilesRecursivelyAux(Queue<File> folders, Writer w , IFileInformation info) throws IOException{
+		
+		while(!folders.isEmpty()){
+			File f = folders.poll();
+
+			if(f.isDirectory()){
+				folders.addAll(Arrays.asList(f.listFiles()));	
+			}
+			
+			w.write(info.getInfoFromFile(f));
+			w.flush();
+		}
+		
+	}
+	
+	public static interface IFileInformation{
+		String getInfoFromFile(File f);
+	}
+	
+	
+	public static IFileInformation getFilteredFileInformation(final String folderToSplitPath, final String replaceFolder, final String sep){
+		
+		return new IFileInformation() {
+			
+			SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+			
+			@Override
+			public String getInfoFromFile(File f) {
+				
+				String ret = "";
+				if(f.isDirectory()) return ret;
+				if(f.isHidden()) return ret;
+				if(f.isFile() && !f.getAbsolutePath().contains(".git/")){
+					
+					List<String> listInfo = new ArrayList<>();
+					
+					String[] info = f.getParentFile().getAbsolutePath().split(folderToSplitPath);
+					if(info.length <2) listInfo.add(replaceFolder);
+					else{
+						info = Arrays.copyOfRange(info, 1, info.length);
+						listInfo.add(replaceFolder+CollectionUtils.join(info, folderToSplitPath));
+					}
+					
+					listInfo.add(f.getName());
+					
+					try {
+						BasicFileAttributes attr = Files.readAttributes(f.toPath(), BasicFileAttributes.class);
+						
+						listInfo.add(df.format(attr.creationTime().toMillis()));
+//						listInfo.add(df.format(attr.lastModifiedTime().toMillis()));
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+					ret = CollectionUtils.join(listInfo, sep)+"\n";
+				}
+				return ret;
+			}
+		};
+	}
+	
 }
