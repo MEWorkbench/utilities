@@ -29,23 +29,27 @@ public class DoubleValue implements IValue {
 		this.value = value;
 	}
 	
-	@Override
-	public Boolean getBooleanValue() {
-		return null;
-	}
-
-	@Override
+//	@Override
+//	public Boolean getBooleanValue() {
+//		return null;
+//	}
+//
 	public Double getNumericValue() {
-		return value;
+		return (Double)value;
 	}
-
-	@Override
-	public Closure getClosureValue() {
-		return null;
-	}
+//
+//	@Override
+//	public Closure getClosureValue() {
+//		return null;
+//	}
 	
 	public String toString(){
 		return Double.toString(value);
+	}
+
+	@Override
+	public Object getValue() {
+		return value;
 	}
 
 }

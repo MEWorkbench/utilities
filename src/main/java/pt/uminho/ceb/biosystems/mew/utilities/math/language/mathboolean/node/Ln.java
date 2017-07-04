@@ -22,6 +22,8 @@
  */
 package pt.uminho.ceb.biosystems.mew.utilities.math.language.mathboolean.node;
 
+import java.util.ArrayList;
+
 import pt.uminho.ceb.biosystems.mew.utilities.grammar.syntaxtree.AbstractSyntaxTreeNode;
 import pt.uminho.ceb.biosystems.mew.utilities.grammar.syntaxtree.IEnvironment;
 import pt.uminho.ceb.biosystems.mew.utilities.math.language.mathboolean.DataTypeEnum;
@@ -30,25 +32,30 @@ import pt.uminho.ceb.biosystems.mew.utilities.math.language.mathboolean.IValue;
 
 public class Ln extends AbstractSyntaxTreeNode<DataTypeEnum,IValue> {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public Ln(){
 		super(DataTypeEnum.DOUBLE);
-		 childNodeArray = new AbstractSyntaxTreeNode[1];
-		 childNodeArrayType = new DataTypeEnum[1];
-	     childNodeArrayType[0] = DataTypeEnum.DOUBLE;
+		 childNodeArray = new ArrayList<>();
+		 childNodeArrayType = new ArrayList<>();
+	     childNodeArrayType.add(0,DataTypeEnum.DOUBLE);
 	}
 	
 	public Ln(AbstractSyntaxTreeNode<DataTypeEnum,IValue> term){
         super(DataTypeEnum.DOUBLE);
-        childNodeArray = new AbstractSyntaxTreeNode[1];
-        childNodeArray[0] = term;
-        childNodeArrayType = new DataTypeEnum[1];
-        childNodeArrayType[0] = DataTypeEnum.DOUBLE;
+		childNodeArray = new ArrayList<>();
+        childNodeArray.add(0,term);
+		 childNodeArrayType = new ArrayList<>();
+	     childNodeArrayType.add(0,DataTypeEnum.DOUBLE);
     }
 
 	@Override
 	public IValue evaluate(IEnvironment<IValue> environment){
-		IValue term = childNodeArray[0].evaluate(environment);
-		double result = Math.log(term.getNumericValue());
+		IValue term = childNodeArray.get(0).evaluate(environment);
+		double result = Math.log((Double)term.getValue());
         return new DoubleValue(result);
 	}
 
@@ -59,7 +66,7 @@ public class Ln extends AbstractSyntaxTreeNode<DataTypeEnum,IValue> {
 
 	@Override
 	public String toString() {
-		String termString = childNodeArray[0].toString();
+		String termString = childNodeArray.get(0).toString();
 		return "Ln("+termString+")";
 	}
 
