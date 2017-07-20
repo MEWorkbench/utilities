@@ -23,20 +23,22 @@
 package pt.uminho.ceb.biosystems.mew.utilities.grammar.syntaxtree;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public abstract class AbstractSyntaxTreeNode<T,S> implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
-	protected AbstractSyntaxTreeNode<T,S>[] childNodeArray;
-    protected T[] childNodeArrayType;
+	protected List<AbstractSyntaxTreeNode<T,S>> childNodeArray;
+    protected List<T> childNodeArrayType;
 	protected AbstractSyntaxTreeNode<T,S> parent;
     protected int parentIndex;
     protected T returnType;
 
 
-    protected AbstractSyntaxTreeNode(AbstractSyntaxTreeNode<T, S>[] childNodeArray, AbstractSyntaxTreeNode<T, S> parent, T returnType) {
+    protected AbstractSyntaxTreeNode(List<AbstractSyntaxTreeNode<T, S>> childNodeArray, AbstractSyntaxTreeNode<T, S> parent, T returnType) {
         this.childNodeArray = childNodeArray;
         this.parent = parent;
         this.returnType = returnType;
@@ -49,7 +51,7 @@ public abstract class AbstractSyntaxTreeNode<T,S> implements Serializable{
 
     protected AbstractSyntaxTreeNode(T returnType) {
         this.returnType = returnType;
-        childNodeArray = new AbstractSyntaxTreeNode[0];
+        childNodeArray = new ArrayList<>();
     }
 
     public int getParentIndex(){
@@ -69,19 +71,19 @@ public abstract class AbstractSyntaxTreeNode<T,S> implements Serializable{
 	}
 	
 	public int getNumberOfChildren(){
-		return childNodeArray.length;
+		return childNodeArray.size();
 	}
 		
 	public void insertChildAt(int index, AbstractSyntaxTreeNode<T,S> child){
-		childNodeArray[index] = child;
+		childNodeArray.add(index,child);
 	} 
 		
 	public AbstractSyntaxTreeNode<T,S> getChildAt(int index) {
-		return childNodeArray[index];
+		return childNodeArray.get(index);
 	}
 	
 	public boolean isLeaf(){
-		return childNodeArray.length == 0;
+		return childNodeArray.size() == 0;
 	}
 	
 	public boolean isRoot(){
@@ -102,7 +104,7 @@ public abstract class AbstractSyntaxTreeNode<T,S> implements Serializable{
 	}
 	
 	public T getChildReturnType(int index){
-		return childNodeArrayType[index];
+		return childNodeArrayType.get(index);
 	}
 
 

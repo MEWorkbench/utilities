@@ -36,18 +36,23 @@ public class Closure implements IValue{
 	}
 
 	@Override
-	public Boolean getBooleanValue() {
-		return null;
+	public Object getValue() {
+		return functionBody;
 	}
 
-	@Override
-	public Closure getClosureValue() {
-		return this;
-	}
-
-	@Override
-	public Double getNumericValue() {
-		return null;
-	}
+//	@Override
+//	public Boolean getBooleanValue() {
+//		return null;
+//	}
+//
+//	@Override
+//	public Closure getClosureValue() {
+//		return this;
+//	}
+//
+//	@Override
+//	public Double getNumericValue() {
+//		return null;
+//	}
 
 }

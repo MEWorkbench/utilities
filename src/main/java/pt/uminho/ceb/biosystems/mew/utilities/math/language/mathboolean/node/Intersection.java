@@ -23,6 +23,11 @@
 package pt.uminho.ceb.biosystems.mew.utilities.math.language.mathboolean.node;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+
+import pt.uminho.ceb.biosystems.mew.utilities.datastructures.collection.CollectionUtils;
 
 /**
  * Created by IntelliJ IDEA.
@@ -34,32 +39,52 @@ import java.util.ArrayList;
 
 import pt.uminho.ceb.biosystems.mew.utilities.grammar.syntaxtree.AbstractSyntaxTreeNode;
 import pt.uminho.ceb.biosystems.mew.utilities.grammar.syntaxtree.IEnvironment;
-import pt.uminho.ceb.biosystems.mew.utilities.math.language.mathboolean.BooleanValue;
 import pt.uminho.ceb.biosystems.mew.utilities.math.language.mathboolean.DataTypeEnum;
 import pt.uminho.ceb.biosystems.mew.utilities.math.language.mathboolean.IValue;
+import pt.uminho.ceb.biosystems.mew.utilities.math.language.mathboolean.OtherValue;
 
-public class And extends AbstractSyntaxTreeNode<DataTypeEnum,IValue> {
+public class Intersection extends AbstractSyntaxTreeNode<DataTypeEnum,IValue> {
 
 	private static final long serialVersionUID = 1L;
 
-	public And(AbstractSyntaxTreeNode left, AbstractSyntaxTreeNode right){
-    	super(DataTypeEnum.BOOLEAN);
+	public Intersection(AbstractSyntaxTreeNode left, AbstractSyntaxTreeNode right){
+    	super(DataTypeEnum.OTHER);
         childNodeArray = new ArrayList<>();
         childNodeArray.add(0,left);
         childNodeArray.add(1,right);
-
         childNodeArrayType = new ArrayList<>();
-        childNodeArrayType.add(0,DataTypeEnum.BOOLEAN);
-        childNodeArrayType.add(1,DataTypeEnum.BOOLEAN);
+        childNodeArrayType.add(0,DataTypeEnum.OTHER);
+        childNodeArrayType.add(1,DataTypeEnum.OTHER);
     	
     }
+	
+	public Intersection(List<AbstractSyntaxTreeNode> nodeList){
+    	super(DataTypeEnum.OTHER);
+        setNodesList(nodeList);    	
+    }
+
+	public void setNodesList(List<AbstractSyntaxTreeNode> nodeList) {
+		childNodeArray = new ArrayList<>();
+        childNodeArrayType = new ArrayList<>();
+
+    	for(int i=0;i<nodeList.size();i++)
+    	{
+    		childNodeArray.add(i,nodeList.get(i));
+            childNodeArrayType.add(i, DataTypeEnum.OTHER);
+    	}
+	}
 
     @Override
     public IValue evaluate(IEnvironment<IValue> environment) {
-        IValue leftTermResultValue = childNodeArray.get(0).evaluate(environment);
-        IValue rightTermResultValue = childNodeArray.get(1).evaluate(environment);
-        Boolean resultValue = (Boolean)leftTermResultValue.getValue() && (Boolean)rightTermResultValue.getValue();
-        return new BooleanValue(resultValue);
+        IValue based = childNodeArray.get(0).evaluate(environment);
+        Collection basedcollection = (Collection)based.getValue();
+    	for(int i=1;i<childNodeArray.size();i++)
+    	{
+            IValue other = childNodeArray.get(i).evaluate(environment);
+            basedcollection = CollectionUtils.getIntersectionValues(basedcollection, (Collection)other.getValue());
+
+    	}
+        return new OtherValue<Collection>(basedcollection);
     }
 
     @Override
@@ -78,7 +103,7 @@ public class And extends AbstractSyntaxTreeNode<DataTypeEnum,IValue> {
     public AbstractSyntaxTreeNode<DataTypeEnum,IValue> newInstance() {
     	AbstractSyntaxTreeNode<DataTypeEnum,IValue> leftAST = childNodeArray.get(0);
     	AbstractSyntaxTreeNode<DataTypeEnum,IValue> rightAST = childNodeArray.get(1);
-        return new And(leftAST,rightAST);
+        return new Intersection(leftAST,rightAST);
     }
 
 }
