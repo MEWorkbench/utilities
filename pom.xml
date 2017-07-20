@@ -55,6 +55,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.target>1.7</maven.compiler.target>
 		<maven.compiler.source>1.7</maven.compiler.source>
+		<project.sign.skip>true</project.sign.skip>
 	</properties>
 
 	<scm>
@@ -114,6 +115,9 @@
 						<goals>
 							<goal>sign</goal>
 						</goals>
+						<configuration>
+							<skip>${project.sign.skip}</skip>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
