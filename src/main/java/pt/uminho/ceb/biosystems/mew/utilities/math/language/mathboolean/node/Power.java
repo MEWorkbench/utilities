@@ -22,6 +22,8 @@
  */
 package pt.uminho.ceb.biosystems.mew.utilities.math.language.mathboolean.node;
 
+import java.util.ArrayList;
+
 import pt.uminho.ceb.biosystems.mew.utilities.grammar.syntaxtree.AbstractSyntaxTreeNode;
 import pt.uminho.ceb.biosystems.mew.utilities.grammar.syntaxtree.IEnvironment;
 import pt.uminho.ceb.biosystems.mew.utilities.math.language.mathboolean.DataTypeEnum;
@@ -30,29 +32,34 @@ import pt.uminho.ceb.biosystems.mew.utilities.math.language.mathboolean.IValue;
 
 public class Power extends AbstractSyntaxTreeNode<DataTypeEnum,IValue> {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public Power(){
 		super(DataTypeEnum.DOUBLE);
-		 childNodeArray = new AbstractSyntaxTreeNode[2];
-		 childNodeArrayType = new DataTypeEnum[2];
-	     childNodeArrayType[0] = DataTypeEnum.DOUBLE;
-	     childNodeArrayType[1] = DataTypeEnum.DOUBLE;
+		childNodeArray = new ArrayList<>();
+		childNodeArrayType = new ArrayList<>();
+		childNodeArrayType.add(0,DataTypeEnum.DOUBLE);
+		childNodeArrayType.add(1,DataTypeEnum.DOUBLE);
 	}
-	
+
 	public Power(AbstractSyntaxTreeNode<DataTypeEnum,IValue> leftTerm,AbstractSyntaxTreeNode<DataTypeEnum,IValue> rightTerm){
-        super(DataTypeEnum.DOUBLE);
-        childNodeArray = new AbstractSyntaxTreeNode[2];
-        childNodeArray[0] = leftTerm;
-        childNodeArray[1] = rightTerm;
-        childNodeArrayType = new DataTypeEnum[2];
-        childNodeArrayType[0] = DataTypeEnum.DOUBLE;
-        childNodeArrayType[1] = DataTypeEnum.DOUBLE;
-    }
+		super(DataTypeEnum.DOUBLE);
+		childNodeArray = new ArrayList<>();
+		childNodeArray.add(0,leftTerm);
+		childNodeArray.add(1,rightTerm);
+		childNodeArrayType = new ArrayList<>();
+		childNodeArrayType.add(0,DataTypeEnum.DOUBLE);
+		childNodeArrayType.add(1,DataTypeEnum.DOUBLE);
+	}
 
 	@Override
 	public IValue evaluate(IEnvironment<IValue> environment){
-		IValue leftTermResult = childNodeArray[0].evaluate(environment);
-        IValue rightTermResult = childNodeArray[1].evaluate(environment);
-        double resultValue = Math.pow(leftTermResult.getNumericValue(),rightTermResult.getNumericValue());
+		IValue leftTermResult = childNodeArray.get(0).evaluate(environment);
+        IValue rightTermResult = childNodeArray.get(1).evaluate(environment);
+        Double resultValue = Math.pow((Double)leftTermResult.getValue(), (Double)rightTermResult.getValue());
         return new DoubleValue(resultValue);
 	}
 
@@ -63,8 +70,8 @@ public class Power extends AbstractSyntaxTreeNode<DataTypeEnum,IValue> {
 
 	@Override
 	public String toString() {
-		String leftTermString = childNodeArray[0].toString();
-		String rightTermString = childNodeArray[1].toString();
+		String leftTermString = childNodeArray.get(0).toString();
+		String rightTermString = childNodeArray.get(1).toString();
 		return leftTermString + "^("+ rightTermString+")";
 	}
 

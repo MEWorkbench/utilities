@@ -28,7 +28,11 @@ import pt.uminho.ceb.biosystems.mew.utilities.math.language.mathboolean.DataType
 import pt.uminho.ceb.biosystems.mew.utilities.math.language.mathboolean.IValue;
 
 public class Constant<E extends IValue> extends AbstractSyntaxTreeNode<DataTypeEnum,IValue> {
-    protected E value;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	protected E value;
 
     public Constant(E value){
         super(DataTypeEnum.DOUBLE);

@@ -22,6 +22,8 @@
  */
 package pt.uminho.ceb.biosystems.mew.utilities.math.language.mathboolean.node;
 
+import java.util.ArrayList;
+
 import pt.uminho.ceb.biosystems.mew.utilities.grammar.syntaxtree.AbstractSyntaxTreeNode;
 import pt.uminho.ceb.biosystems.mew.utilities.grammar.syntaxtree.IEnvironment;
 import pt.uminho.ceb.biosystems.mew.utilities.math.language.mathboolean.BooleanValue;
@@ -30,25 +32,30 @@ import pt.uminho.ceb.biosystems.mew.utilities.math.language.mathboolean.IValue;
 
 public class Not extends AbstractSyntaxTreeNode<DataTypeEnum,IValue>{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public Not(){
 		super(DataTypeEnum.BOOLEAN);
-        childNodeArray = new AbstractSyntaxTreeNode[1];
-        childNodeArrayType = new DataTypeEnum[1];
-        childNodeArrayType[0] = DataTypeEnum.BOOLEAN;
+        childNodeArray = new ArrayList<>();
+        childNodeArrayType = new ArrayList<>();
+        childNodeArrayType.add(0,DataTypeEnum.BOOLEAN);
 	}
 	
 	public Not(AbstractSyntaxTreeNode node){
 		super(DataTypeEnum.BOOLEAN);
-        childNodeArray = new AbstractSyntaxTreeNode[1];
-        childNodeArray[0] = node;
-        childNodeArrayType = new DataTypeEnum[1];
-        childNodeArrayType[0] = DataTypeEnum.BOOLEAN;
+        childNodeArray = new ArrayList<>();
+        childNodeArray.add(0,node);
+        childNodeArrayType = new ArrayList<>();
+        childNodeArrayType.add(0,DataTypeEnum.BOOLEAN);
 	}
 
 	@Override
 	public IValue evaluate(IEnvironment<IValue> environment) {
-		IValue node = childNodeArray[0].evaluate(environment);
-		boolean resultValue = !node.getBooleanValue();
+		IValue node = childNodeArray.get(0).evaluate(environment);
+		Boolean resultValue = !(Boolean)node.getValue();
 		return new BooleanValue(resultValue);
 	}
 
@@ -59,7 +66,7 @@ public class Not extends AbstractSyntaxTreeNode<DataTypeEnum,IValue>{
 
 	@Override
 	public String toString() {
-		String node = childNodeArray[0].toString();
+		String node = childNodeArray.get(0).toString();
 		return " not( "+ node + ")";
 	}
 

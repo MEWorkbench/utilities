@@ -28,19 +28,24 @@ public class ClosureValue implements IValue {
 	public ClosureValue(Closure closure){
 		this.closure = closure;
 	}
-	
-	@Override
-	public Boolean getBooleanValue(){
-		return null;
-	}
 
 	@Override
-	public Double getNumericValue() {
-		return null;
-	}
-
-	@Override
-	public Closure getClosureValue() {
+	public Object getValue() {
 		return closure;
 	}
+	
+//	@Override
+//	public Boolean getBooleanValue(){
+//		return null;
+//	}
+//
+//	@Override
+//	public Double getNumericValue() {
+//		return null;
+//	}
+//
+//	@Override
+//	public Closure getClosureValue() {
+//		return closure;
+//	}
 }

@@ -22,6 +22,8 @@
  */
 package pt.uminho.ceb.biosystems.mew.utilities.math.language.mathboolean.node;
 
+import java.util.ArrayList;
+
 import pt.uminho.ceb.biosystems.mew.utilities.grammar.syntaxtree.AbstractSyntaxTreeNode;
 import pt.uminho.ceb.biosystems.mew.utilities.grammar.syntaxtree.IEnvironment;
 import pt.uminho.ceb.biosystems.mew.utilities.math.language.mathboolean.BooleanValue;
@@ -30,30 +32,34 @@ import pt.uminho.ceb.biosystems.mew.utilities.math.language.mathboolean.IValue;
 
 public class Or extends AbstractSyntaxTreeNode<DataTypeEnum,IValue>{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public Or(){
 		super(DataTypeEnum.BOOLEAN);
-        childNodeArray = new AbstractSyntaxTreeNode[2];
-        childNodeArrayType = new DataTypeEnum[2];
-        childNodeArrayType[0] = DataTypeEnum.BOOLEAN;
-        childNodeArrayType[1] = DataTypeEnum.BOOLEAN;
+        childNodeArray = new ArrayList<>();
+        childNodeArrayType = new ArrayList<>();
+        childNodeArrayType.add(0,DataTypeEnum.BOOLEAN);
+        childNodeArrayType.add(1,DataTypeEnum.BOOLEAN);
 	}
 	
     public Or(AbstractSyntaxTreeNode left, AbstractSyntaxTreeNode right){
     	super(DataTypeEnum.BOOLEAN);
-        childNodeArray = new AbstractSyntaxTreeNode[2];
-        childNodeArray[0] = left;
-        childNodeArray[1] =right;
-        childNodeArrayType = new DataTypeEnum[2];
-        childNodeArrayType[0] = DataTypeEnum.BOOLEAN;
-        childNodeArrayType[1] = DataTypeEnum.BOOLEAN;
-    	
+        childNodeArray = new ArrayList<>();
+        childNodeArray.add(0,left);
+        childNodeArray.add(1,right);
+        childNodeArrayType = new ArrayList<>();
+        childNodeArrayType.add(0,DataTypeEnum.BOOLEAN);
+        childNodeArrayType.add(1,DataTypeEnum.BOOLEAN);
     }
 	
 	@Override
 	public IValue evaluate(IEnvironment<IValue> environment) {
-		IValue leftTermResult = childNodeArray[0].evaluate(environment);
-        IValue rightTermResult = childNodeArray[1].evaluate(environment);
-        boolean resultValue = leftTermResult.getBooleanValue() || rightTermResult.getBooleanValue();
+		IValue leftTermResult = childNodeArray.get(0).evaluate(environment);
+        IValue rightTermResult = childNodeArray.get(1).evaluate(environment);
+        Boolean resultValue = (Boolean)leftTermResult.getValue() || (Boolean)rightTermResult.getValue();
         return new BooleanValue(resultValue);
 	}
 
@@ -70,8 +76,8 @@ public class Or extends AbstractSyntaxTreeNode<DataTypeEnum,IValue>{
 //	}
 	
 	public String toString(){
-    	String leftTermString = childNodeArray[0].toString();
-        String rightTermString = childNodeArray[1].toString();
+    	String leftTermString = childNodeArray.get(0).toString();
+        String rightTermString = childNodeArray.get(1).toString();
         return " ("+ leftTermString + " or " +rightTermString + ")";
     }
 
