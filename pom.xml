@@ -3,11 +3,12 @@
 
 	<groupId>pt.uminho.ceb.biosystems.mew</groupId>
 	<artifactId>mew-utilities</artifactId>
-	<version>0.0.4-SNAPSHOT</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>utilities</name>
 	<description>Utilities for the MEWorkbench</description>
+	<url>https://github.com/MEWorkbench/utilities</url>
 
 	<developers>
 		<developer>
