@@ -327,7 +327,15 @@ public class MapUtils {
 	}
 	
 	public static <K, V> Map<K, V> subMap(Map<K, V> info,
-			Set<K> fluxes, Map<K, V> collector) {
+			Collection<K> ids){
+		
+		return subMap(info, ids, new HashMap<K, V>());
+	}
+	
+	
+	
+	public static <K, V> Map<K, V> subMap(Map<K, V> info,
+			Collection<K> fluxes, Map<K, V> collector) {
 		
 		if (collector == null)
 			collector = new HashMap<K, V>();
@@ -344,6 +352,7 @@ public class MapUtils {
 		Map<V, Set<K>> ret = new HashMap<V, Set<K>>();
 		for (K key : map.keySet()) {
 			Collection<V> values = map.get(key);
+			if(values != null)
 			for (V value : values) {
 				
 				Set<K> kvalues = ret.get(value);
