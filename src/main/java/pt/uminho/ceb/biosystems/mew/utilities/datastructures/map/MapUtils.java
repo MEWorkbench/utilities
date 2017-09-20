@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -14,6 +15,8 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import javax.management.RuntimeErrorException;
 
 import pt.uminho.ceb.biosystems.mew.utilities.datastructures.collection.CollectionUtils;
 import pt.uminho.ceb.biosystems.mew.utilities.datastructures.collection.IMapper;
@@ -340,7 +343,7 @@ public class MapUtils {
 		if (collector == null)
 			collector = new HashMap<K, V>();
 		
-		for (K key : info.keySet()) {
+		for (K key : fluxes) {
 			collector.put(key, info.get(key));
 		}
 		
@@ -455,5 +458,29 @@ public class MapUtils {
 		}
 		
 		return sumMap;
+	}
+	
+	public static <K, V1, V2> Map<K,V2> transformMap(Map<K, V1> originalMap, Converter<V1, V2> conv){
+		
+		Map<K,V2> newMap;
+		try {
+			newMap = originalMap.getClass().getConstructor().newInstance();
+		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
+				| NoSuchMethodException | SecurityException e) {
+			throw new RuntimeException(e);
+		}
+		
+		for(K key : originalMap.keySet()){
+			newMap.put(key, conv.convert(originalMap.get(key)));
+		}
+		
+		return newMap;
+	}
+	
+	
+	
+	public interface Converter<T, E>{
+		
+		E convert(T value);
 	}
 }
