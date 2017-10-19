@@ -24,7 +24,6 @@ package pt.uminho.ceb.biosystems.mew.utilities.math.language.mathboolean.node;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 import pt.uminho.ceb.biosystems.mew.utilities.datastructures.collection.CollectionUtils;
@@ -96,7 +95,7 @@ public class Intersection extends AbstractSyntaxTreeNode<DataTypeEnum,IValue> {
     public String toString() {
         String leftTermString = childNodeArray.get(0).toString();
         String rightTermString = childNodeArray.get(1).toString();
-        return  "( " +leftTermString + " and " +rightTermString + " )";
+        return  "( " +leftTermString + " ∩ " +rightTermString + " )";
     }
     
     @Override

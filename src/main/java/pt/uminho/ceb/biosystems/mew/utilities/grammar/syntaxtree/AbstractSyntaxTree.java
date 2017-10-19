@@ -23,6 +23,8 @@
 package pt.uminho.ceb.biosystems.mew.utilities.grammar.syntaxtree;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Stack;
 
 //S - e o tipo que representa o tipo de dados
@@ -179,6 +181,30 @@ public  class AbstractSyntaxTree<T,S> implements Serializable{
 		
 		return currentNumberOfNodes;
 	}
+	
+	public Set<AbstractSyntaxTreeNode<T,S>> getAllNodes(AbstractSyntaxTreeNode<T,S> node) {
+		Set<AbstractSyntaxTreeNode<T,S>> out = new HashSet<>();
+		out.add(node);
+		Stack<AbstractSyntaxTreeNode<T,S>> nodeStack = new Stack<AbstractSyntaxTreeNode<T,S>>();
+		nodeStack.push(node);
+		while(nodeStack.size() != 0){
+			AbstractSyntaxTreeNode<T,S> currentNode = nodeStack.pop();
+			insertNewNodes(out,nodeStack,currentNode);
+		}	
+		return out;
+	}
+	
+	protected void insertNewNodes(Set<AbstractSyntaxTreeNode<T,S>> set,Stack<AbstractSyntaxTreeNode<T,S>> nodeStack,	AbstractSyntaxTreeNode<T,S> node){
+		for(int i = 0;i < node.getNumberOfChildren();i++){
+			AbstractSyntaxTreeNode<T,S> childNode = node.getChildAt(i);
+            if(childNode != null)
+            {
+            	set.add(childNode);
+			    nodeStack.add(childNode);
+            }
+		}		
+	}
+	
 
     public T getChildReturnType(AbstractSyntaxTreeNode<T,S> node, int index){
         return node.getChildReturnType(index);  
@@ -234,4 +260,5 @@ public  class AbstractSyntaxTree<T,S> implements Serializable{
         newNode.setParent(currentNode);
         newNode.setParentIndex(parentIndex);
     }
+    
 }

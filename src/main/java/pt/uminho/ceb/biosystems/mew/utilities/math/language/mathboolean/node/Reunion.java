@@ -95,7 +95,7 @@ public class Reunion extends AbstractSyntaxTreeNode<DataTypeEnum,IValue> {
     public String toString() {
         String leftTermString = childNodeArray.get(0).toString();
         String rightTermString = childNodeArray.get(1).toString();
-        return  "( " +leftTermString + " and " +rightTermString + " )";
+        return  "( " +leftTermString + " U " +rightTermString + " )";
     }
     
     @Override
