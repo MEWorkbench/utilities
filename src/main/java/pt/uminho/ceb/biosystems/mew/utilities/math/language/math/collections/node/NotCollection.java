@@ -20,7 +20,7 @@
  * 
  * Created inside the SysBioPseg Research Group (http://sysbio.di.uminho.pt)
  */
-package pt.uminho.ceb.biosystems.mew.utilities.math.language.mathboolean.node;
+package pt.uminho.ceb.biosystems.mew.utilities.math.language.math.collections.node;
 
 import java.util.ArrayList;
 import java.util.Collection;
