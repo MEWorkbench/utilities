@@ -80,7 +80,8 @@ public class Intersection extends AbstractSyntaxTreeNode<DataTypeEnum,IValue> {
     	for(int i=1;i<childNodeArray.size();i++)
     	{
             IValue other = childNodeArray.get(i).evaluate(environment);
-            basedcollection = CollectionUtils.getIntersectionValues(basedcollection, (Collection)other.getValue());
+            Collection otherCollection = (Collection)other.getValue();
+            basedcollection = CollectionUtils.getIntersectionValues(basedcollection,otherCollection );
 
     	}
         return new OtherValue<Collection>(basedcollection);
