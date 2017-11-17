@@ -215,10 +215,7 @@ public class MapUtils {
 		return ret;
 	}
 	
-	public static <S, T> Map<S, Set<T>> revertMap(Map<T, S> map) {
-		
-		Map<S, Set<T>> ret = new HashMap<S, Set<T>>();
-		
+	public static <S, T> Map<S, Set<T>> revertMap(Map<T, S> map, Map<S, Set<T>> ret) {
 		for (T key : map.keySet()) {
 			S value = map.get(key);
 			
@@ -232,6 +229,13 @@ public class MapUtils {
 		}
 		
 		return ret;
+	}
+	
+	
+	public static <S, T> Map<S, Set<T>> revertMap(Map<T, S> map) {
+		
+		Map<S, Set<T>> ret = new HashMap<S, Set<T>>();
+		return revertMap(map, ret);
 	}
 	
 	public static Map<String, String> getInfoInFile(String f, int idxId, int idxData, String sep) throws IOException {
@@ -277,7 +281,7 @@ public class MapUtils {
 		return CollectionUtils.join(entries, entrySep);
 	}
 	
-	public static <K, V> Map<K, Integer> countMapCollectionSize(Map<K, Collection<V>> map) {
+	public static <K, V> Map<K, Integer> countMapCollectionSize(Map<K, ? extends Collection<V>> map) {
 		
 		Map<K, Integer> count = new HashMap<K, Integer>();
 		
@@ -460,6 +464,51 @@ public class MapUtils {
 		return sumMap;
 	}
 	
+	static public <K1, K2, E> void putSafelyMap(Map<K1, Map<K2, E>> pathFeaturesMap, K1 featureDescriptor, K2 pathId, E featureValue){
+		putSafelyMap(pathFeaturesMap, featureDescriptor, pathId, featureValue, HashMap.class);
+	}
+
+
+	static public <K1, K2, E> void putSafelyMap(Map<K1, Map<K2, E>> pathFeaturesMap, K1 featureDescriptor, K2 pathId, E featureValue, Class<? extends Map> Klass){
+		Map<K2, E> a = pathFeaturesMap.get(featureDescriptor);
+		if(a ==null){
+			try {
+				a = Klass.newInstance();
+			} catch (InstantiationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			};
+			pathFeaturesMap.put(featureDescriptor, a);
+		}
+		a.put(pathId, featureValue);
+
+	}
+
+	public static <E, K> void putSafelyCollection(Map<K, Collection<E>> map,K key, E value){
+		putSafelyCollection(map, key, value, HashSet.class);
+	}
+	
+	public static <E, K> void putSafelyCollection(Map<K, Collection<E>> map,K key, E value, Class<? extends Collection> collectionClass){
+		Collection<E> co = map.get(key);
+		if(co == null){
+			
+			try {
+				co = collectionClass.newInstance();
+			} catch (InstantiationException | IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			map.put(key, co);
+		}
+		co.add(value);
+		
+	}
+	
+	
+	
 	public static <K, V1, V2> Map<K,V2> transformMap(Map<K, V1> originalMap, Converter<V1, V2> conv){
 		
 		Map<K,V2> newMap;
@@ -478,6 +527,30 @@ public class MapUtils {
 	}
 	
 	
+	public static <K1,K2, V1, V2> Map<K2,V2> transformMap(Map<K1, V1> originalMap,Converter<K1, K2> convKey, Converter<V1, V2> convValue){
+		
+		Map<K2,V2> newMap;
+		try {
+			newMap = originalMap.getClass().getConstructor().newInstance();
+		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
+				| NoSuchMethodException | SecurityException e) {
+			throw new RuntimeException(e);
+		}
+	
+		return transformMap(originalMap, newMap, convKey, convValue);
+	}
+	
+	
+	public static <K1,K2, V1, V2> Map<K2,V2> transformMap(Map<K1, V1> originalMap,Map<K2,V2> newMap, Converter<K1, K2> convKey, Converter<V1, V2> convValue){
+		
+		for(K1 key : originalMap.keySet()){
+			K2 newkey = (convKey == null)? (K2)key: convKey.convert(key);
+			V2 newValue = (convValue == null)? (V2)originalMap.get(key): convValue.convert(originalMap.get(key));
+			newMap.put(newkey, newValue);
+		}
+		
+		return newMap;
+	}
 	
 	public interface Converter<T, E>{
 		
