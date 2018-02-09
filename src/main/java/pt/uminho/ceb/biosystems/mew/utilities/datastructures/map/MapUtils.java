@@ -16,8 +16,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.management.RuntimeErrorException;
-
 import pt.uminho.ceb.biosystems.mew.utilities.datastructures.collection.CollectionUtils;
 import pt.uminho.ceb.biosystems.mew.utilities.datastructures.collection.IMapper;
 import pt.uminho.ceb.biosystems.mew.utilities.datastructures.exceptions.MapKeyAlreadyExistsException;
@@ -374,6 +372,23 @@ public class MapUtils {
 		return ret;
 	}
 	
+	public static <K, V> Map<V, K> revertMapCollectionSingleValue(
+			Map<K, ? extends Collection<V>> mapCollection) {
+		
+		Map<V, K> ret = new HashMap<>();
+		for(K key : mapCollection.keySet()){
+			for(V value: mapCollection.get(key)){
+				
+				K exits = ret.put(value, key);
+				if(exits!=null) throw new RuntimeException(String.format("Element value {} has {} {} keys associated!!!", key, exits, value));
+			}
+		}
+		
+		
+		return ret;
+	}
+	
+	
 	public static void writeMap(Map<?, ?> map, String file, String delimiter) throws IOException {
 		writeMap(map, new FileWriter(file), delimiter);
 		
@@ -487,16 +502,16 @@ public class MapUtils {
 
 	}
 
-	public static <E, K> void putSafelyCollection(Map<K, Collection<E>> map,K key, E value){
-		putSafelyCollection(map, key, value, HashSet.class);
+	public static <E, K, CE extends Collection<E>> void putSafelyCollection(Map<K, CE> map,K key, E value){
+		putSafelyCollection(map, key, value, (CE)new HashSet<E>());
 	}
 	
-	public static <E, K> void putSafelyCollection(Map<K, Collection<E>> map,K key, E value, Class<? extends Collection> collectionClass){
-		Collection<E> co = map.get(key);
+	public static <E, K, CE extends Collection<E>> void putSafelyCollection(Map<K, CE> map,K key, E value, CE baseEmptyCollection){
+		CE co = map.get(key);
 		if(co == null){
 			
 			try {
-				co = collectionClass.newInstance();
+				co = (CE)baseEmptyCollection.getClass().newInstance();
 			} catch (InstantiationException | IllegalAccessException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -556,4 +571,5 @@ public class MapUtils {
 		
 		E convert(T value);
 	}
+
 }
