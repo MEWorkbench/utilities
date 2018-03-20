@@ -8,9 +8,11 @@ before_script:
   - ./jfrog rt c show
   # Set the M2_HOME environment variable
   - export M2_HOME=/usr/share/maven
-  # Replace the target repository name in the configuration.yml to the correct one.
-  - sed -i 's,MAVEN_REPO_KEY,'"$MAVEN_REPO_KEY"',g' configuration.yml
-  # Replace the jcenter name in the configuration.yml to the correct one.
+  # Replace the target SNAPSHOT repository name in the configuration.yml to the correct one.
+  - sed -i 's,SNAPSHOT_REPO_KEY,'"$SNAPSHOT_REPO_KEY"',g' configuration.yml
+  # Replace the target RELEASE repository name in the configuration.yml to the correct one.
+  - sed -i 's,RELEASE_REPO_KEY,'"$RELEASE_REPO_KEY"',g' configuration.yml
+  # Replace the JCENTER name in the configuration.yml to the correct one.
   - sed -i 's,ARTIFACTORY_JCENTER_REPO_KEY,'"$ARTIFACTORY_JCENTER_REPO_KEY"',g' configuration.yml
   
 build:

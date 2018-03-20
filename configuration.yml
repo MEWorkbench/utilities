@@ -5,6 +5,6 @@ resolver:
   releaseRepo: ARTIFACTORY_JCENTER_REPO_KEY
   serverID: Default-Server
 deployer:
-  snapshotRepo: MAVEN_REPO_KEY
-  releaseRepo: MAVEN_REPO_KEY
+  snapshotRepo: SNAPSHOT_REPO_KEY
+  releaseRepo: RELEASE_REPO_KEY
   serverID: Default-Server
