@@ -459,6 +459,10 @@ public class CollectionUtils {
 		
 	}
 	
+	public static <T> T[] convertToPrimitive(Collection<T> info){
+		return (T[])info.toArray();
+	}
+	
 	
 	public static <T> ArrayList<T> convertPrimitiveArrayToList(T[] data){
 		
@@ -488,9 +492,10 @@ public class CollectionUtils {
 		return ret;
 	}
 	
-	public static <T> void aggregate(Collection<? extends Collection<T>> values, Collection<T> toAdd) {
+	public static <T> Collection<T> aggregate(Collection<? extends Collection<T>> values, Collection<T> toAdd) {
 		for(Collection<T> v : values)
 			if(v!=null) toAdd.addAll(v);
+		return toAdd;
 	}
 
 	public static <T extends Object> T getArrayValue(T[] data, int i) {
