@@ -12,7 +12,7 @@ before_script:
   - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
   # Install GPG (gnupg)
   - 'which gpg-agent || ( apk update  && apk add gnupg)'
-  - gpg -v --import <(echo "$GPG_PRIVATE_KEY")
+  - gpg2 -v --batch --import <(echo "$GPG_PRIVATE_KEY")
   # Install JFrog CLI
   -  curl -fL https://getcli.jfrog.io | sh
   # Configure Artifactory instance with JFrog CLI
