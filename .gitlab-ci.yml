@@ -20,7 +20,7 @@ build:
     - maven
   script:
     # Run the MVN command
-    - ./jfrog rt mvn "clean install" configuration.yml --build-name=mew-utilities_gitlabci-maven-artifactory --build-number=$CI_JOB_ID
+    - ./jfrog rt mvn "clean verify install" configuration.yml --build-name=mew-utilities_gitlabci-maven-artifactory --build-number=$CI_JOB_ID
     # Collect the environment variables
     - ./jfrog rt bce gitlabci-maven-artifactory $CI_JOB_ID
     # Pass the build information to Artifactory
