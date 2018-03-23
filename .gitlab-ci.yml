@@ -18,7 +18,6 @@ before_script:
 build:
   tags:
     - maven
-    - ssh
   script:
     ##
     ## Install ssh-agent if not already installed, it is required by Docker.
