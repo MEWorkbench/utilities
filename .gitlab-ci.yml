@@ -20,6 +20,14 @@ build:
     - maven
     - ssh
   script:
+    ##
+    ## Install ssh-agent if not already installed, it is required by Docker.
+    ## (change apt-get to yum if you use an RPM-based image)
+    ##    
+    - 'which ssh-agent || ( apk update  && apk add openssh)'
+    ##
+    ## Run ssh-agent (inside the build environment)
+    ##
     - eval $(ssh-agent -s)    
     # Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
     - ssh-add <(echo "$SSH_PRIVATE_KEY")    
