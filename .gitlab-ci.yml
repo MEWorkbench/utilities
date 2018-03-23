@@ -18,7 +18,17 @@ before_script:
 build:
   tags:
     - maven
+    - ssh
   script:
+    - eval $(ssh-agent -s)    
+    # Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
+    - ssh-add <(echo "$SSH_PRIVATE_KEY")    
+    # For Docker builds disable host key checking. Be aware that by adding that
+    # you are susceptible to man-in-the-middle attacks.
+    # WARNING: Use this only with the Docker executor, if you use it with shell
+    # you will overwrite your user's SSH config.
+    - mkdir -p ~/.ssh
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
     # Run the MVN command
     - ./jfrog rt mvn "clean verify gpg:sign install" configuration.yml --build-name=mew-utilities_gitlabci-maven-artifactory --build-number=$CI_JOB_ID
     # Collect the environment variables
