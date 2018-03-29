@@ -93,7 +93,7 @@ public class CollectionUtils {
 	/*
 	 * author Joao Cardoso
 	 */
-	public static <T> Set<T> getIntersectionValues(Collection<T> colection1, Collection<T> colection2){
+	public static <T> Set<T> getIntersectionValues(Collection<? extends T> colection1, Collection<? extends T> colection2){
 		
 		Set<T> ret = new HashSet<T>();
 		if(colection1 == null || colection2 == null) return ret;
@@ -187,7 +187,7 @@ public class CollectionUtils {
 	
 	
 	
-	public static <T> Set<T> getReunionValues(Collection<T> collectionA, Collection<T> collectionB) {
+	public static <T> Set<T> getReunionValues(Collection<? extends T> collectionA, Collection<? extends T> collectionB) {
 		Set<T> newSet = new HashSet<T>(collectionA);
 		newSet.addAll(collectionB);
 		return newSet;
@@ -477,6 +477,7 @@ public class CollectionUtils {
 
 	public static Set<String> split(String string, String separator) {
 		Set<String> set = new HashSet<String>();
+		if(string == null) return set;
 		String[] split = string.split(separator);
 		for(String v : split)
 			set.add(v.trim());
