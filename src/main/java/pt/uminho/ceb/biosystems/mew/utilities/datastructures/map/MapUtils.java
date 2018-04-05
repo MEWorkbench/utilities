@@ -95,11 +95,11 @@ public class MapUtils {
 	}
 	
 	public static String prettyToString(Map<? extends Object, ? extends Object> map, String valSep, String rowSep) {
-		String s = "";
+		StringBuilder sb = new StringBuilder();
 		for (Object key : map.keySet()) {
-			s += key + valSep + map.get(key) + rowSep;
+			sb.append( key + valSep + map.get(key) + rowSep);
 		}
-		return s;
+		return sb.toString();
 	}
 	
 	public static String prettyToString(Map<? extends Object, ? extends Object> map, String sep) {
