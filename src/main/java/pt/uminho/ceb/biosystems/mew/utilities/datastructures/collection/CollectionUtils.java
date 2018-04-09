@@ -93,7 +93,7 @@ public class CollectionUtils {
 	/*
 	 * author Joao Cardoso
 	 */
-	public static <T> Set<T> getIntersectionValues(Collection<T> colection1, Collection<T> colection2){
+	public static <T> Set<T> getIntersectionValues(Collection<? extends T> colection1, Collection<? extends T> colection2){
 		
 		Set<T> ret = new HashSet<T>();
 		if(colection1 == null || colection2 == null) return ret;
@@ -187,7 +187,7 @@ public class CollectionUtils {
 	
 	
 	
-	public static <T> Set<T> getReunionValues(Collection<T> collectionA, Collection<T> collectionB) {
+	public static <T> Set<T> getReunionValues(Collection<? extends T> collectionA, Collection<? extends T> collectionB) {
 		Set<T> newSet = new HashSet<T>(collectionA);
 		newSet.addAll(collectionB);
 		return newSet;
@@ -459,6 +459,10 @@ public class CollectionUtils {
 		
 	}
 	
+	public static <T> T[] convertToPrimitive(Collection<T> info){
+		return (T[])info.toArray();
+	}
+	
 	
 	public static <T> ArrayList<T> convertPrimitiveArrayToList(T[] data){
 		
@@ -473,6 +477,7 @@ public class CollectionUtils {
 
 	public static Set<String> split(String string, String separator) {
 		Set<String> set = new HashSet<String>();
+		if(string == null) return set;
 		String[] split = string.split(separator);
 		for(String v : split)
 			set.add(v.trim());
@@ -488,9 +493,10 @@ public class CollectionUtils {
 		return ret;
 	}
 	
-	public static <T> void aggregate(Collection<? extends Collection<T>> values, Collection<T> toAdd) {
+	public static <T> Collection<T> aggregate(Collection<? extends Collection<T>> values, Collection<T> toAdd) {
 		for(Collection<T> v : values)
 			if(v!=null) toAdd.addAll(v);
+		return toAdd;
 	}
 
 	public static <T extends Object> T getArrayValue(T[] data, int i) {

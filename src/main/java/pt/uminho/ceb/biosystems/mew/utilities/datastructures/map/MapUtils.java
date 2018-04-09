@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -94,11 +95,11 @@ public class MapUtils {
 	}
 	
 	public static String prettyToString(Map<? extends Object, ? extends Object> map, String valSep, String rowSep) {
-		String s = "";
+		StringBuilder sb = new StringBuilder();
 		for (Object key : map.keySet()) {
-			s += key + valSep + map.get(key) + rowSep;
+			sb.append( key + valSep + map.get(key) + rowSep);
 		}
-		return s;
+		return sb.toString();
 	}
 	
 	public static String prettyToString(Map<? extends Object, ? extends Object> map, String sep) {
@@ -212,10 +213,7 @@ public class MapUtils {
 		return ret;
 	}
 	
-	public static <S, T> Map<S, Set<T>> revertMap(Map<T, S> map) {
-		
-		Map<S, Set<T>> ret = new HashMap<S, Set<T>>();
-		
+	public static <S, T> Map<S, Set<T>> revertMap(Map<T, S> map, Map<S, Set<T>> ret) {
 		for (T key : map.keySet()) {
 			S value = map.get(key);
 			
@@ -229,6 +227,13 @@ public class MapUtils {
 		}
 		
 		return ret;
+	}
+	
+	
+	public static <S, T> Map<S, Set<T>> revertMap(Map<T, S> map) {
+		
+		Map<S, Set<T>> ret = new HashMap<S, Set<T>>();
+		return revertMap(map, ret);
 	}
 	
 	public static Map<String, String> getInfoInFile(String f, int idxId, int idxData, String sep) throws IOException {
@@ -274,7 +279,7 @@ public class MapUtils {
 		return CollectionUtils.join(entries, entrySep);
 	}
 	
-	public static <K, V> Map<K, Integer> countMapCollectionSize(Map<K, Collection<V>> map) {
+	public static <K, V> Map<K, Integer> countMapCollectionSize(Map<K, ? extends Collection<V>> map) {
 		
 		Map<K, Integer> count = new HashMap<K, Integer>();
 		
@@ -327,12 +332,20 @@ public class MapUtils {
 	}
 	
 	public static <K, V> Map<K, V> subMap(Map<K, V> info,
-			Set<K> fluxes, Map<K, V> collector) {
+			Collection<K> ids){
+		
+		return subMap(info, ids, new HashMap<K, V>());
+	}
+	
+	
+	
+	public static <K, V> Map<K, V> subMap(Map<K, V> info,
+			Collection<K> fluxes, Map<K, V> collector) {
 		
 		if (collector == null)
 			collector = new HashMap<K, V>();
 		
-		for (K key : info.keySet()) {
+		for (K key : fluxes) {
 			collector.put(key, info.get(key));
 		}
 		
@@ -344,6 +357,7 @@ public class MapUtils {
 		Map<V, Set<K>> ret = new HashMap<V, Set<K>>();
 		for (K key : map.keySet()) {
 			Collection<V> values = map.get(key);
+			if(values != null)
 			for (V value : values) {
 				
 				Set<K> kvalues = ret.get(value);
@@ -357,6 +371,23 @@ public class MapUtils {
 		
 		return ret;
 	}
+	
+	public static <K, V> Map<V, K> revertMapCollectionSingleValue(
+			Map<K, ? extends Collection<V>> mapCollection) {
+		
+		Map<V, K> ret = new HashMap<>();
+		for(K key : mapCollection.keySet()){
+			for(V value: mapCollection.get(key)){
+				
+				K exits = ret.put(value, key);
+				if(exits!=null) throw new RuntimeException(String.format("Element value {} has {} {} keys associated!!!", key, exits, value));
+			}
+		}
+		
+		
+		return ret;
+	}
+	
 	
 	public static void writeMap(Map<?, ?> map, String file, String delimiter) throws IOException {
 		writeMap(map, new FileWriter(file), delimiter);
@@ -447,4 +478,98 @@ public class MapUtils {
 		
 		return sumMap;
 	}
+	
+	static public <K1, K2, E> void putSafelyMap(Map<K1, Map<K2, E>> pathFeaturesMap, K1 featureDescriptor, K2 pathId, E featureValue){
+		putSafelyMap(pathFeaturesMap, featureDescriptor, pathId, featureValue, HashMap.class);
+	}
+
+
+	static public <K1, K2, E> void putSafelyMap(Map<K1, Map<K2, E>> pathFeaturesMap, K1 featureDescriptor, K2 pathId, E featureValue, Class<? extends Map> Klass){
+		Map<K2, E> a = pathFeaturesMap.get(featureDescriptor);
+		if(a ==null){
+			try {
+				a = Klass.newInstance();
+			} catch (InstantiationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			};
+			pathFeaturesMap.put(featureDescriptor, a);
+		}
+		a.put(pathId, featureValue);
+
+	}
+
+	public static <E, K, CE extends Collection<E>> void putSafelyCollection(Map<K, CE> map,K key, E value){
+		putSafelyCollection(map, key, value, (CE)new HashSet<E>());
+	}
+	
+	public static <E, K, CE extends Collection<E>> void putSafelyCollection(Map<K, CE> map,K key, E value, CE baseEmptyCollection){
+		CE co = map.get(key);
+		if(co == null){
+			
+			try {
+				co = (CE)baseEmptyCollection.getClass().newInstance();
+			} catch (InstantiationException | IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			map.put(key, co);
+		}
+		co.add(value);
+		
+	}
+	
+	
+	
+	public static <K, V1, V2> Map<K,V2> transformMap(Map<K, V1> originalMap, Converter<V1, V2> conv){
+		
+		Map<K,V2> newMap;
+		try {
+			newMap = originalMap.getClass().getConstructor().newInstance();
+		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
+				| NoSuchMethodException | SecurityException e) {
+			throw new RuntimeException(e);
+		}
+		
+		for(K key : originalMap.keySet()){
+			newMap.put(key, conv.convert(originalMap.get(key)));
+		}
+		
+		return newMap;
+	}
+	
+	
+	public static <K1,K2, V1, V2> Map<K2,V2> transformMap(Map<K1, V1> originalMap,Converter<K1, K2> convKey, Converter<V1, V2> convValue){
+		
+		Map<K2,V2> newMap;
+		try {
+			newMap = originalMap.getClass().getConstructor().newInstance();
+		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
+				| NoSuchMethodException | SecurityException e) {
+			throw new RuntimeException(e);
+		}
+	
+		return transformMap(originalMap, newMap, convKey, convValue);
+	}
+	
+	
+	public static <K1,K2, V1, V2> Map<K2,V2> transformMap(Map<K1, V1> originalMap,Map<K2,V2> newMap, Converter<K1, K2> convKey, Converter<V1, V2> convValue){
+		
+		for(K1 key : originalMap.keySet()){
+			K2 newkey = (convKey == null)? (K2)key: convKey.convert(key);
+			V2 newValue = (convValue == null)? (V2)originalMap.get(key): convValue.convert(originalMap.get(key));
+			newMap.put(newkey, newValue);
+		}
+		
+		return newMap;
+	}
+	
+	public interface Converter<T, E>{
+		
+		E convert(T value);
+	}
+
 }

@@ -596,15 +596,15 @@ public class FileUtils {
 	public static String read(String filePath) throws IOException {
 		FileReader fr = new FileReader(filePath);
 		BufferedReader br = new BufferedReader(fr);
-		String fileData = "";
+		StringBuilder sb = new StringBuilder();
 		String line;
 		try{
-			while((line = br.readLine()) != null) fileData += line + "\n";
+			while((line = br.readLine()) != null) sb.append( line + "\n");
 		}finally{
 			br.close();
 			fr.close();
 		}
-		return fileData;
+		return sb.toString();
 	}
 
 	public static void copyFile(String orig, String dest){
