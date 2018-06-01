@@ -13,14 +13,15 @@ public class SetUtils {
 	 * author Joao Cardoso
 	 */
 	/**
-	 * Compared two SortedSets. If setA is a subset of setB, then B > A.
-	 * If setB is a subset of setA, then A > B. For the sets to be equal, all elements
+	 * Compared two SortedSets. If setA is a subset of setB, then B  A.
+	 * If setB is a subset of setA, then A B. For the sets to be equal, all elements
 	 * must be return 0 when compared and the sets must be the same size.
 	 * The elements of the set must be comparable. 
 	 * 
 	 * @param setA a {@link SortedSet}.
 	 * @param setB another {@link SortedSet}
-	 * @return {@link int} 0 if the sets are equal. If A > B returns 1, if B > A returns -1.
+	 * @param <T> element type
+	 * @return {@link Integer} 0 if the sets are equal. If A greater than B returns 1, if B greater than A returns -1.
 	 */	
 	@SuppressWarnings("unchecked")
 	public static <T> int compare(SortedSet<T> setA, SortedSet<T> setB) {
@@ -47,10 +48,11 @@ public class SetUtils {
 	 * author Joao Cardoso
 	 */
 	/**
-	 * Calculates the <a href=http://en.wikipedia.org/wiki/Jaccard_index>Jaccard Index</a> between two Sets.
+	 * Calculates the Jaccard Index between two Sets.
 	 * 
 	 * @param setA a {@link Set}.
 	 * @param setB another {@link Set}
+	 * @param <T> element type
 	 * @return {@link double} the calculated Jaccard Index.
 	 */
 	public static <T> double jaccardIndex(Set<T> setA, Set<T> setB) {
@@ -63,10 +65,11 @@ public class SetUtils {
 	}
 	
 	/**
-	 * Calculates the <a href=http://en.wikipedia.org/wiki/Jaccard_index>Jaccard Index</a> between two Sets.
+	 * Calculates the Jaccard Indexbetween two Sets.
 	 * 
 	 * @param setA a {@link Set}.
 	 * @param setB another {@link Set}
+	 * @param <T> element type
 	 * @return [Double, Integer] the calculated Jaccard Index and the number of elements in the reunion of setA and setB .
 	 */
 	public static <T> Object[] jaccardIndexAndReunionSize(Set<T> setA, Set<T> setB) {

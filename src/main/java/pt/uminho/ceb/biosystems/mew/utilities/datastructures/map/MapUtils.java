@@ -414,7 +414,9 @@ public class MapUtils {
 	 * 
 	 * @param map1 the pivot map (used as base)
 	 * @param map2 the second map
-	 * @return
+	 * @param <T> key
+	 * @param <U> value
+	 * @return maps intersection
 	 * @author pmaia
 	 */
 	public static <T, U> Map<T, U> getMapIntersectionValues(Map<T, U> map1, Map<T, U> map2) {

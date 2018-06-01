@@ -916,8 +916,8 @@ public class MathUtils
 	/**
 	 * Greatest Common Divisor according to Euclid's algorithm
 	 * 
-	 * @param array
-	 * @return
+	 * @param array array longs
+	 * @return Common Divisor
 	 */
 	public static long gcd(long [] array) {
 

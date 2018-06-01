@@ -249,9 +249,7 @@ public class FileUtils {
 		return table;
 	}
 	
-	/**
-	 * @return
-	 */
+
 	public static String getCurrentDirectory(){
 		String tokenizer = File.pathSeparator;
 		StringTokenizer st = new StringTokenizer(System.getProperty("java.class.path"),tokenizer);
@@ -259,9 +257,8 @@ public class FileUtils {
 		return path;
 		
 	}
-	/**
-	 * @return
-	 */
+
+	
 	public static String getCurrentTempDirectory(){
 		String path = getCurrentDirectory();
 		path =path +"/../../temp/";
@@ -270,10 +267,7 @@ public class FileUtils {
 		
 	}
 	
-	/**
-	 * @param dirName
-	 * @return
-	 */
+
 	public static String getCurrentTempDirectory(String dirName){
 		String path = getCurrentTempDirectory();
 		path =path+dirName+"/";
@@ -935,11 +929,11 @@ public class FileUtils {
 		saveStringInFile(file, CollectionUtils.join(saveList, "\n"));
 	}
 	
-	/**
+	/*
 	 * Method to be used in ruby console
 	 * @param folderPath
 	 * @param withAbsolPath
-	 * @return
+	 * @return list
 	 */
 	public static List<String> getFilesFromFolder(String folderPath, boolean withAbsolPath){
 		File folder = new File(folderPath);

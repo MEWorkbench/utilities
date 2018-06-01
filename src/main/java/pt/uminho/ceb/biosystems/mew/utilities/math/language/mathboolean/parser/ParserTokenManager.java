@@ -30,7 +30,7 @@ public class ParserTokenManager implements ParserConstants
 
   /** Debug output. */
   public static  java.io.PrintStream debugStream = System.out;
-  /** Set debug output. */
+  /* Set debug output. */
   public static  void setDebugStream(java.io.PrintStream ds) { debugStream = ds; }
 private static final int jjStopStringLiteralDfa_0(int pos, long active0)
 {
@@ -452,12 +452,12 @@ static final int[] jjnextStates = {
    19, 20, 21, 
 };
 
-/** Token literal values. */
+/* Token literal values. */
 public static final String[] jjstrLiteralImages = {
 "", null, null, null, "\12", "\50", "\51", null, null, null, "\170\157\162", 
 "\164\162\165\145", "\146\141\154\163\145", null, null, };
 
-/** Lexer state names. */
+/* Lexer state names. */
 public static final String[] lexStateNames = {
    "DEFAULT",
 };
@@ -471,20 +471,20 @@ static protected SimpleCharStream input_stream;
 static private final int[] jjrounds = new int[22];
 static private final int[] jjstateSet = new int[44];
 static protected char curChar;
-/** Constructor. */
+/* Constructor. */
 public ParserTokenManager(SimpleCharStream stream){
    if (input_stream != null)
       throw new TokenMgrError("ERROR: Second call to constructor of static lexer. You must use ReInit() to initialize the static variables.", TokenMgrError.STATIC_LEXER_ERROR);
    input_stream = stream;
 }
 
-/** Constructor. */
+/* Constructor. */
 public ParserTokenManager(SimpleCharStream stream, int lexState){
    this(stream);
    SwitchTo(lexState);
 }
 
-/** Reinitialise parser. */
+/* Reinitialise parser. */
 static public void ReInit(SimpleCharStream stream)
 {
    jjmatchedPos = jjnewStateCnt = 0;
@@ -500,14 +500,14 @@ static private void ReInitRounds()
       jjrounds[i] = 0x80000000;
 }
 
-/** Reinitialise parser. */
+/* Reinitialise parser. */
 static public void ReInit(SimpleCharStream stream, int lexState)
 {
    ReInit(stream);
    SwitchTo(lexState);
 }
 
-/** Switch to specified lex state. */
+/* Switch to specified lex state. */
 static public void SwitchTo(int lexState)
 {
    if (lexState >= 1 || lexState < 0)
@@ -547,7 +547,7 @@ static int jjround;
 static int jjmatchedPos;
 static int jjmatchedKind;
 
-/** Get the next Token. */
+/* Get the next Token. */
 public static Token getNextToken() 
 {
   Token matchedToken;

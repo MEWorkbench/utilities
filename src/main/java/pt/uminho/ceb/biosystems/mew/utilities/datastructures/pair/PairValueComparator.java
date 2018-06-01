@@ -7,10 +7,7 @@ import java.util.Comparator;
  * 
  * 
  * @author pmaia
- * @date Oct 2, 2014
- * @version 
- * @since
- * @param <C>
+ * @param <C> type to compare
  */
 @SuppressWarnings("rawtypes")
 public class PairValueComparator<C extends Comparable> implements Comparator<Pair<?, C>> {

@@ -13,9 +13,6 @@ import java.util.Set;
  * NOTE: This code is more memory intensive than the original one.
  * 
  * @author pmaia
- * @date May 2, 2014
- * @version 0.1
- * @since utilities 2
  * @param <K> the key type for this hashmap
  * @param <V> the value type for this hashmap mappings
  */
@@ -46,7 +43,7 @@ public class IndexedHashMap2<K, V> extends HashMap<K, V> implements IIndexedMap<
 	/**
 	 * Clonable constructor;
 	 * 
-	 * @param IndexedHashMap<K, V> other is the map to be used as template to
+	 * @param other IndexedHashMap other is the map to be used as template to
 	 *            create a clone;
 	 */
 	public IndexedHashMap2(IndexedHashMap2<K, V> other) {
@@ -67,7 +64,7 @@ public class IndexedHashMap2<K, V> extends HashMap<K, V> implements IIndexedMap<
 	
 	/**
 	 * 
-	 * @return IndexedHashMap<K, V> clone of this map
+	 * @return IndexedHashMap clone of this map
 	 * 
 	 *         !!WARNING!!: This is not a deep copy
 	 */
@@ -102,7 +99,8 @@ public class IndexedHashMap2<K, V> extends HashMap<K, V> implements IIndexedMap<
 	}
 	
 	/**
-	 * @return Collection<V> a sorted list where the values are inserted
+	 * 
+	 * @return  a sorted list where the values are inserted
 	 *         according to the index.
 	 */
 	@Override
@@ -156,7 +154,7 @@ public class IndexedHashMap2<K, V> extends HashMap<K, V> implements IIndexedMap<
 	}
 	
 	/**
-	 * @return Set<K> the set of keys sorted by their index
+	 * @return the set of keys sorted by their index
 	 */
 	@Override
 	public Set<K> keySet() {
