@@ -127,15 +127,15 @@
 		</plugins>
 	</build>
 	
-	<distributionManagement>
-	    <repository>
-	      <id>oss.sonatype.org</id>
-	      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-	    </repository>
-	    <snapshotRepository>
-	      <id>oss.sonatype.org</id>
-	      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-	    </snapshotRepository>
-  </distributionManagement>
+<!-- 	<distributionManagement> -->
+<!--     <repository> -->
+<!--       <id>oss.sonatype.org</id> -->
+<!--       <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url> -->
+<!--     </repository> -->
+<!--     <snapshotRepository> -->
+<!--       <id>oss.sonatype.org</id> -->
+<!--       <url>https://oss.sonatype.org/content/repositories/snapshots</url> -->
+<!--     </snapshotRepository> -->
+<!--   </distributionManagement> -->
 
 </project>

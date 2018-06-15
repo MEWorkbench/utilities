@@ -9,7 +9,7 @@
       <pluginGroups/>
       <servers>
             <server>
-              <id>ossrh</id>
+              <id>DEPLOYMENT_REPO_ID</id>
               <username>OSS_SONATYPE_USER</username>
               <password>OSS_SONATYPE_PASS</password>
             </server>
