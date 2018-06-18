@@ -1,6 +1,6 @@
 DEPLOYMENT_REPO_ID="test"
 
-if [ $1 = "deploy" ]; then
+if [ $1 = "master" ]; then
 	DEPLOYMENT_REPO_URL="https://oss.sonatype.org/content/repositories/snapshots"
 else
 	MEWORKBENCH_VERSION=${MEWORKBENCH_VERSION}-SNAPSHOT
