@@ -8,6 +8,7 @@ else
 	MEWORKBENCH_VERSION=${MEWORKBENCH_VERSION}-SNAPSHOT
 	DEPLOYMENT_REPO_URL="https://oss.sonatype.org/service/local/staging/deploy/maven2/"
 fi
+echo VERSION: $MEWORKBENCH_VERSION
 
 #echo OSS_SONATYPE_USER $OSS_SONATYPE_USER
 #echo OSS_SONATYPE_PASS $OSS_SONATYPE_PASS
@@ -16,7 +17,7 @@ fi
 H2_HOME=$HOME/.deploym2
 
 M2REPOSITORY=$H2_HOME/repository
-mkdir p ${M2REPOSITORY}
+mkdir -p ${M2REPOSITORY}
 cp build/oss.sonatype.settings.xml ${H2_HOME}/settings.xml
 
 sed -i s,LOCAL_M2,$H2_HOME,g ${H2_HOME}/settings.xml
