@@ -1,5 +1,7 @@
 DEPLOYMENT_REPO_ID="test"
 
+
+echo DEPLOY_FLAG: $1
 if [ $1 = "master" ]; then
 	DEPLOYMENT_REPO_URL="https://oss.sonatype.org/content/repositories/snapshots"
 else
@@ -7,15 +9,14 @@ else
 	DEPLOYMENT_REPO_URL="https://oss.sonatype.org/service/local/staging/deploy/maven2/"
 fi
 
-echo OSS_SONATYPE_USER $OSS_SONATYPE_USER
-echo OSS_SONATYPE_PASS $OSS_SONATYPE_PASS
-
-#GPG_PRIVATE_KEY=`cat build/gpg_private`
-#echo GPG_PRIVATE_KEY   $GPG_PRIVATE_KEY
+#echo OSS_SONATYPE_USER $OSS_SONATYPE_USER
+#echo OSS_SONATYPE_PASS $OSS_SONATYPE_PASS
 
 
 H2_HOME=$HOME/.deploym2
+
 M2REPOSITORY=$H2_HOME/repository
+mkdir p ${M2REPOSITORY}
 cp build/oss.sonatype.settings.xml ${H2_HOME}/settings.xml
 
 sed -i s,LOCAL_M2,$H2_HOME,g ${H2_HOME}/settings.xml
