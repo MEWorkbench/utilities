@@ -8,7 +8,5 @@ deploy:
     script:
         - build/deploy.sh $TRAVIS_BRANCH
     on:
-        - all_branches: true
-        - condition: $TRAVIS_BRANCH =~ ^dev|master$
-    env:
-        - 
+        all_branches: true
+        condition: $TRAVIS_BRANCH =~ ^dev|master$
