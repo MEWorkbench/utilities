@@ -1,4 +1,3 @@
-MEWORKBENCH_VERSION=1.0.3
 DEPLOYMENT_REPO_ID="oss.sonatype.org"
 
 
@@ -29,4 +28,4 @@ sed -i s/DEPLOYMENT_REPO_ID/$DEPLOYMENT_REPO_ID/g ${H2_HOME}/settings.xml
 #echo GPG_PRIVATE_KEY: $GPG_PRIVATE_KEY
 #gpg -v --batch --import <(echo "$GPG_PRIVATE_KEY")
 
-mvn -Dmeworkbench.version=${MEWORKBENCH_VERSION} -s ${H2_HOME}/settings.xml -Dmaven.repo.local=$M2REPOSITORY deploy
+mvn -s ${H2_HOME}/settings.xml -Dmaven.repo.local=$M2REPOSITORY deploy
