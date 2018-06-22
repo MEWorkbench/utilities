@@ -8,9 +8,9 @@ import java.util.List;
 
 import org.junit.Test;
 
+import pt.uminho.ceb.biosystems.mew.utilities.math.language.math.collections.node.Intersection;
 import pt.uminho.ceb.biosystems.mew.utilities.math.language.mathboolean.DataTypeEnum;
 import pt.uminho.ceb.biosystems.mew.utilities.math.language.mathboolean.OtherValue;
-import pt.uminho.ceb.biosystems.mew.utilities.math.language.mathboolean.node.Intersection;
 import pt.uminho.ceb.biosystems.mew.utilities.math.language.mathboolean.node.Variable;
 
 public class IntersectionTest {
