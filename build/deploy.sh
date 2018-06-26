@@ -1,5 +1,6 @@
 DEPLOYMENT_REPO_ID="oss.sonatype.org"
-
+OSS_SONATYPE_USER='XGhX4+TR'
+OSS_SONATYPE_PASS='ai+nMDKDyF79Wtxd5LeqFkssbpWQEQmfPVNHVkzIC9oX'
 
 H2_HOME=$HOME/.deploym2
 
