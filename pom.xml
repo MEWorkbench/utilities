@@ -2,13 +2,14 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>pt.uminho.ceb.biosystems.mew</groupId>
-	<artifactId>mew-guiutilities</artifactId>
+	<artifactId>mew-utilities</artifactId>
 	<version>${meworkbench.version}</version>
 	<packaging>jar</packaging>
 
-	<name>guiutilities</name>
-	<description>GUI utilities for MEWorkbench</description>
-	<url>https://github.com/MEWorkbench/guiutilities</url>
+	<name>utilities</name>
+	<description>Utilities for the MEWorkbench</description>
+	<url>https://github.com/MEWorkbench/utilities</url>
+
 	
 	<developers>
 		<developer>
