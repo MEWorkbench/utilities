@@ -504,6 +504,8 @@ public class CollectionUtils {
 			value=data[i];		
 		return value;
 	}
-
-
+	
+	public interface CompareCollections<I,O>{
+		O compare(Collection<I> c1, Collection<I> c2);
+	}
 }

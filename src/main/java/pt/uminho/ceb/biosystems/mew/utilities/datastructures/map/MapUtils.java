@@ -5,7 +5,6 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.StringReader;
 import java.io.Writer;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -561,7 +560,22 @@ public class MapUtils {
 		});
 	 }
 	
-	
+	public static <K1, K2, V, CV extends Collection<V>, O>  Map<K1, Map<K2, O>> compareCollectionsInMap(Map<K1, CV> map1, Map<K2, CV> map2, CollectionUtils.CompareCollections<V, O> comparor){
+		Map<K1, Map<K2, O>> ret = new LinkedHashMap<K1, Map<K2,O>>();
+		
+		for(K1 k1 : map1.keySet()) {
+			CV cv1 = map1.get(k1);
+			Map<K2, O> compK1 = new LinkedHashMap<>();
+			for(K2 k2 : map2.keySet()) {
+				CV cv2 = map2.get(k2);
+				O output = comparor.compare(cv1, cv2);
+				compK1.put(k2, output);
+			}
+			ret.put(k1, compK1);
+		}
+		return ret;
+	}
+	 
 	
 	public static <K, V1, V2> Map<K,V2> transformMap(Map<K, V1> originalMap, Converter<V1, V2> conv){
 		
