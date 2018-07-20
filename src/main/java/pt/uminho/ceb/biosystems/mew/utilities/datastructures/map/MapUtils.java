@@ -5,12 +5,14 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.StringReader;
 import java.io.Writer;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -346,7 +348,8 @@ public class MapUtils {
 			collector = new HashMap<K, V>();
 		
 		for (K key : fluxes) {
-			collector.put(key, info.get(key));
+			if(info.get(key)!=null)
+				collector.put(key, info.get(key));
 		}
 		
 		return collector;
@@ -523,6 +526,40 @@ public class MapUtils {
 		co.add(value);
 		
 	}
+	
+	
+	
+	 static public Map<String, String[]> readTableFileFormat(BufferedReader r, String sep, int indexKey) throws IOException{
+			
+			Map<String, String[]> data = new LinkedHashMap<String, String[]>();
+			String line = r.readLine();
+			Integer i = 0;
+			while(line !=null){
+				if(!line.trim().equals("")){
+					String[] lineData = line.split(sep,-1);
+					String id = i+"";
+					if(indexKey!=-1)
+						id = lineData[indexKey].trim();
+					
+					data.put(id, lineData);
+				}
+				line = r.readLine();
+				i++;
+			}
+			
+			return data;
+	 }
+	 
+	 static public Map<String, String> transformTableInDictornary(Map<String, String[]> table, final int valueIdx){
+		 return transformMap(table, new Converter<String[], String>() {
+
+			@Override
+			public String convert(String[] value) {
+				return value[valueIdx];
+			}
+			 
+		});
+	 }
 	
 	
 	
