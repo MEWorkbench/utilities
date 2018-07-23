@@ -2,9 +2,11 @@ package pt.uminho.ceb.biosystems.mew.utilities.datastructures.map;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -23,6 +25,29 @@ import pt.uminho.ceb.biosystems.mew.utilities.datastructures.exceptions.MapKeyAl
 import pt.uminho.ceb.biosystems.mew.utilities.java.StringUtils;
 
 public class MapUtils {
+	
+	
+	public static <T extends Collection> void printPairsMapCollection(Map<?, T> mapColection, String sep) throws IOException{
+		writePairsMapCollection(new OutputStreamWriter(System.out), mapColection, sep);
+	}
+	
+	public static <T extends Collection> void savePairsMapCollection(String path, Map<?, T> mapColection) throws IOException{
+		savePairsMapCollection(new File(path), mapColection, "\t");
+	}
+	
+	public static <T extends Collection> void savePairsMapCollection(File f, Map<?, T> mapColection, String sep) throws IOException{
+		FileWriter w = new FileWriter(f);
+		writePairsMapCollection(w, mapColection, sep);
+		w.close();
+	}
+	
+	public static <T extends Collection> void writePairsMapCollection(Writer w, Map<?, T> mapColection, String sep) throws IOException{
+		for(Object k : mapColection.keySet()){
+			for(Object v : mapColection.get(k))
+				w.write(k + sep + v + "\n");
+		}
+		w.flush();
+	}
 	
 	public static void prettyPrint(Map<?, ?> map, String sep) {
 		if (map != null)
