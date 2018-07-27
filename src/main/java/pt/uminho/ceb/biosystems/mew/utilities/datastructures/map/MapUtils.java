@@ -115,22 +115,26 @@ public class MapUtils {
 	}
 	
 	public static <E extends Object, T extends Object, V extends Object> String prettyMAP2LineKeySt(Map<E, Map<T, V>> data, Collection<T> toPrint, String nullValue) {
+		return prettyMAP2LineKeySt(data, toPrint, nullValue, "\t");
+	}
+	
+	public static <E extends Object, T extends Object, V extends Object> String prettyMAP2LineKeySt(Map<E, Map<T, V>> data, Collection<T> toPrint, String nullValue, String separator) {
 		
 		StringBuilder builder = new StringBuilder(10000000);
 		
-		builder.append("\t");
+		builder.append(separator);
 		for (Object id : toPrint)
-			builder.append(id + "\t");
+			builder.append(id + separator);
 		builder.append("\n");
 		
 		for (E key : data.keySet()) {
 			Map<T, V> values = data.get(key);
-			builder.append(key + "\t");
+			builder.append(key + separator);
 			for (T id : toPrint) {
 				String p = nullValue + "";
 				if (values.get(id) != null)
 					p = values.get(id) + "";
-				builder.append(p + "\t");
+				builder.append(p + separator);
 			}
 			builder.append("\n");
 		}
@@ -138,11 +142,14 @@ public class MapUtils {
 	}
 	
 	public static <E extends Object, T extends Object, V extends Object> String prettyMAP2ToString(Map<E, Map<T, V>> data, Collection<T> toPrint, String nullValue) {
+		return prettyMAP2LineKeySt(data, toPrint, nullValue, "\t");
+	}
+	public static <E extends Object, T extends Object, V extends Object> String prettyMAP2ToString(Map<E, Map<T, V>> data, Collection<T> toPrint, String nullValue, String separator) {
 		Set<Object> firstLine = new LinkedHashSet<Object>(data.keySet());
 		
 		StringBuilder builder = new StringBuilder(10000000);
 		for (Object id : firstLine)
-			builder.append("\t" + id);
+			builder.append(separator + id);
 		builder.append("\n");
 		
 		for (Object rid : toPrint) {
@@ -154,7 +161,7 @@ public class MapUtils {
 				if (nv != null && nv.get(rid) != null)
 					p = nv.get(rid) + "";
 				
-				info += "\t " + p;
+				info += separator + p;
 			}
 			
 			builder.append(info + "\n");
