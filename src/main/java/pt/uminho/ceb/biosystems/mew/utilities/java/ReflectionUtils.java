@@ -20,9 +20,6 @@ import java.util.Map;
  * 
  * 
  * @author pmaia
- * @date Sep 9, 2014
- * @version
- * @since
  */
 public class ReflectionUtils {
 	
@@ -36,6 +33,8 @@ public class ReflectionUtils {
 	 *            the base class
 	 * @param childClass
 	 *            the child class
+	 * @param <T> the type of baseClass
+	 *            
 	 * @return a list of the raw classes for the actual type arguments.
 	 */
 	public static <T> List<Class<?>> getTypeArguments(Class<T> baseClass, Class<? extends T> childClass) {
@@ -109,7 +108,7 @@ public class ReflectionUtils {
 		}
 	}
 	
-	/**
+	/*
 	 * This is a helper method to call a method on an Object with the given
 	 * parameters. It is used for dispatching to specific DAOs that do not
 	 * implement the GenericDAO interface.
@@ -127,7 +126,7 @@ public class ReflectionUtils {
 		return callMethod(object, methodName, paramTypes, args);
 	}
 	
-	/**
+	/*
 	 * This is a helper method to call a method on an Object with the given
 	 * parameters. It is used for dispatching to specific DAOs that do not
 	 * implement the GenericDAO interface.
@@ -271,7 +270,7 @@ public class ReflectionUtils {
 		}
 	}
 	
-	/**
+	/*
 	 * Greater dist is worse:
 	 * <ol>
 	 * <li>superClass = Object loses to all

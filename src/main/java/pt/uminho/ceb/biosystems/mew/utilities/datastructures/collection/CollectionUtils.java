@@ -22,11 +22,11 @@ public class CollectionUtils {
 	 * Takes a collection and returns all elements assembled in
 	 * a {@link String} joined by the defined separator.
 	 * <br>
-	 * Example: Create a {@link String} using a {@link List<Integer>}
+	 * Example: Create a {@link String} using a {@link List}
 	 * separated by "\n":
 	 * <br>
 	 * <code>
-	 * List<Integer> list = new ArrayList<Integer>();
+	 * List list = new ArrayList();
 	 * <br>
 	 * list.add(1);
 	 * <br>
@@ -138,12 +138,12 @@ public class CollectionUtils {
 	 * <code>
 	 * String input = "1, 2, 3, 4, 5, foo, bar";
 	 * <br>
-	 * Collection<String> output = CollectionUtils.parseSeparatedString(input, ", ");
+	 * Collection output = CollectionUtils.parseSeparatedString(input, ", ");
 	 * </code>
 	 * <br>
 	 * @param input the {@link String} to split.
 	 * @param delim the {@link String} regular expression used to split the input.
-	 * @return {@link Collection<String>} with the elements separated.
+	 * @return {@link Collection} with the elements separated.
 	 */
 	public static List<String> parseSeparatedString(String input, String delim){
 		List<String> output = new ArrayList<String>();
@@ -324,18 +324,15 @@ public class CollectionUtils {
 	}
 
 	
-	/*
-	 * author Joao Cardoso
-	 */
 	/**
-	 * Generic reduce function for high-level programming. It takes a IReducer<I,O>
+	 * Generic reduce function for high-level programming. It takes a IReducer
 	 * where I is the input class and O the output. It takes the first element of the same class
 	 * of the output for the first reduce action.
 	 * <br>
 	 * Example, sum a list of Integers:
 	 * <br>
 	 * <code>
-	 * List<Integer> list = new ArrayList<Integer>();
+	 * List list = new ArrayList();
 	 * <br>
 	 * list.add(1);
 	 * <br>
@@ -343,7 +340,7 @@ public class CollectionUtils {
 	 * <br>
 	 * list.add(3);
 	 * <br>
-	 * Integer sum = CollectionUtils.reduce(0, list, new IReducer<Integer, Integer>() {
+	 * Integer sum = CollectionUtils.reduce(0, list, new IReducer() {
 	 * <br>
 	 * 	 public Integer reduce(Integer mem, Integer input) {
 	 * <br>
@@ -358,8 +355,10 @@ public class CollectionUtils {
 	 * @param first the base Object for output.
 	 * @param collection a collection to reduce
 	 * @param reducer an implementation of {@link IReducer}.
+	 * @param <I> input type
+	 * @param <O> output type
 	 * @return The output value of the reducer.
-	 * @throws Exception 
+	 * @throws Exception exception
 	 */
 	public static <I,O> O reduce(O first, Collection<I> collection, IReducer<I,O> reducer) throws Exception {
 		O mem = first;
@@ -373,14 +372,14 @@ public class CollectionUtils {
 	 * author Joao Cardoso
 	 */
 	/**
-	 * Generic reduce function for high-level programming. It takes a IReducer<E,E>
+	 * Generic reduce function for high-level programming. It takes a IReducer
 	 * where I is the input class and O the output. The first element of the collection is
 	 * used as the first element. The reducer must return the same type as the collection elements.
 	 * <br>
 	 * Example, sum a list of Integers:
 	 * <br>
 	 * <code>
-	 * List<Integer> list = new ArrayList<Integer>();
+	 * List list = new ArrayList();
 	 * <br>
 	 * list.add(1);
 	 * <br>
@@ -388,7 +387,7 @@ public class CollectionUtils {
 	 * <br>
 	 * list.add(3);
 	 * <br>
-	 * Integer sum = CollectionUtils.reduce(list, new IReducer<Integer, Integer>() {
+	 * Integer sum = CollectionUtils.reduce(list, new IReducer() {
 	 * <br>
 	 * 	 public Integer reduce(Integer mem, Integer input) {
 	 * <br>
@@ -402,8 +401,8 @@ public class CollectionUtils {
 	 * 
 	 * @param collection a collection to reduce
 	 * @param reducer an implementation of IReducer.
+	 * @param <E> element type
 	 * @return The output value of the reducer.
-	 * @throws Exception 
 	 */
 	public static <E> E reduce(Collection<E> collection, IReducer<E, E> reducer) {
 		Queue<E> queue = new LinkedList<E>(collection);
@@ -505,6 +504,8 @@ public class CollectionUtils {
 			value=data[i];		
 		return value;
 	}
-
-
+	
+	public interface CompareCollections<I,O>{
+		O compare(Collection<I> c1, Collection<I> c2);
+	}
 }

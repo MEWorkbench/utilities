@@ -13,9 +13,7 @@ import java.awt.image.BufferedImage;
  * etc.
  * 
  * @author pmaia
- * @date Nov 5, 2014
  * @version 0.1
- * @since
  */
 public class GraphicsUtils {
 	/**

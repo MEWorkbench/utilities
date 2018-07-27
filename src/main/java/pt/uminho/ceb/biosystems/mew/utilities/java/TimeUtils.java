@@ -7,7 +7,6 @@ import java.util.concurrent.TimeUnit;
  * Simple utilities class to work with dates and times
  * 
  * @author pmaia
- * @date 
  * @version 1.0
  * @since Metabolic3
  */

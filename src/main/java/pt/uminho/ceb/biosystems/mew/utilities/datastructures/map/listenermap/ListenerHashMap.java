@@ -9,9 +9,6 @@ import java.util.HashMap;
  * 
  * 
  * @author pmaia
- * @date Jun 25, 2014
- * @version 1.0 
- * @since 
  * @param <K> key
  * @param <V> value
  */

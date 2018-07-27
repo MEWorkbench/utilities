@@ -60,7 +60,8 @@ public class IndexedHashMap<K,V> extends HashMap<K,V> implements IIndexedMap<K, 
 	/**
 	 * Clonable constructor;
 	 * 
-	 * @param IndexedHashMap<K, V> other is the map to be used as template to create a clone;
+
+	 * @param other IndexedHashMap other is the map to be used as template to create a clone;
 	 *
 	 * !!WARNING!!: This is not a deep copy
 	 */
@@ -81,7 +82,7 @@ public class IndexedHashMap<K,V> extends HashMap<K,V> implements IIndexedMap<K, 
 	
 	/**
 	 * 
-	 * @return IndexedHashMap<K, V> clone of this map
+	 * @return  clone of this map
 	 * 
 	 * !!WARNING!!: This is not a deep copy
 	 */
@@ -120,7 +121,7 @@ public class IndexedHashMap<K,V> extends HashMap<K,V> implements IIndexedMap<K, 
 	 * changed by Joao
 	 */
 	/**
-	 * @return Collection<V> a sorted list where the values are inserted according to the index. 
+	 * @return  a sorted list where the values are inserted according to the index. 
 	 */
 	@Override
 	public Collection<V> values() {
@@ -170,7 +171,7 @@ public class IndexedHashMap<K,V> extends HashMap<K,V> implements IIndexedMap<K, 
 	 * changed by Joao
 	 */
 	/**
-	 * @return Set<K> the set of keys sorted by their index
+	 * @return the set of keys sorted by their index
 	 */
 	@Override
 	public Set<K> keySet() {

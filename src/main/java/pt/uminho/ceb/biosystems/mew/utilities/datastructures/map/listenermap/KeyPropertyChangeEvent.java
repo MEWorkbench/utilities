@@ -5,9 +5,6 @@ import java.beans.PropertyChangeEvent;
 /**
  * 
  * @author pmaia
- * @date Jun 25, 2014
- * @version 
- * @since
  */
 public class KeyPropertyChangeEvent extends PropertyChangeEvent {
 	

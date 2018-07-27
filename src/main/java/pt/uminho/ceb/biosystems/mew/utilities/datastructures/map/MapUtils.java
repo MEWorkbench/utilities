@@ -2,15 +2,18 @@ package pt.uminho.ceb.biosystems.mew.utilities.datastructures.map;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +25,29 @@ import pt.uminho.ceb.biosystems.mew.utilities.datastructures.exceptions.MapKeyAl
 import pt.uminho.ceb.biosystems.mew.utilities.java.StringUtils;
 
 public class MapUtils {
+	
+	
+	public static <T extends Collection> void printPairsMapCollection(Map<?, T> mapColection, String sep) throws IOException{
+		writePairsMapCollection(new OutputStreamWriter(System.out), mapColection, sep);
+	}
+	
+	public static <T extends Collection> void savePairsMapCollection(String path, Map<?, T> mapColection) throws IOException{
+		savePairsMapCollection(new File(path), mapColection, "\t");
+	}
+	
+	public static <T extends Collection> void savePairsMapCollection(File f, Map<?, T> mapColection, String sep) throws IOException{
+		FileWriter w = new FileWriter(f);
+		writePairsMapCollection(w, mapColection, sep);
+		w.close();
+	}
+	
+	public static <T extends Collection> void writePairsMapCollection(Writer w, Map<?, T> mapColection, String sep) throws IOException{
+		for(Object k : mapColection.keySet()){
+			for(Object v : mapColection.get(k))
+				w.write(k + sep + v + "\n");
+		}
+		w.flush();
+	}
 	
 	public static void prettyPrint(Map<?, ?> map, String sep) {
 		if (map != null)
@@ -353,7 +379,8 @@ public class MapUtils {
 			collector = new HashMap<K, V>();
 		
 		for (K key : fluxes) {
-			collector.put(key, info.get(key));
+			if(info.get(key)!=null)
+				collector.put(key, info.get(key));
 		}
 		
 		return collector;
@@ -421,7 +448,9 @@ public class MapUtils {
 	 * 
 	 * @param map1 the pivot map (used as base)
 	 * @param map2 the second map
-	 * @return
+	 * @param <T> key
+	 * @param <U> value
+	 * @return maps intersection
 	 * @author pmaia
 	 */
 	public static <T, U> Map<T, U> getMapIntersectionValues(Map<T, U> map1, Map<T, U> map2) {
@@ -530,6 +559,55 @@ public class MapUtils {
 	}
 	
 	
+	
+	 static public Map<String, String[]> readTableFileFormat(BufferedReader r, String sep, int indexKey) throws IOException{
+			
+			Map<String, String[]> data = new LinkedHashMap<String, String[]>();
+			String line = r.readLine();
+			Integer i = 0;
+			while(line !=null){
+				if(!line.trim().equals("")){
+					String[] lineData = line.split(sep,-1);
+					String id = i+"";
+					if(indexKey!=-1)
+						id = lineData[indexKey].trim();
+					
+					data.put(id, lineData);
+				}
+				line = r.readLine();
+				i++;
+			}
+			
+			return data;
+	 }
+	 
+	 static public Map<String, String> transformTableInDictornary(Map<String, String[]> table, final int valueIdx){
+		 return transformMap(table, new Converter<String[], String>() {
+
+			@Override
+			public String convert(String[] value) {
+				return value[valueIdx];
+			}
+			 
+		});
+	 }
+	
+	public static <K1, K2, V, CV extends Collection<V>, O>  Map<K1, Map<K2, O>> compareCollectionsInMap(Map<K1, CV> map1, Map<K2, CV> map2, CollectionUtils.CompareCollections<V, O> comparor){
+		Map<K1, Map<K2, O>> ret = new LinkedHashMap<K1, Map<K2,O>>();
+		
+		for(K1 k1 : map1.keySet()) {
+			CV cv1 = map1.get(k1);
+			Map<K2, O> compK1 = new LinkedHashMap<>();
+			for(K2 k2 : map2.keySet()) {
+				CV cv2 = map2.get(k2);
+				O output = comparor.compare(cv1, cv2);
+				compK1.put(k2, output);
+			}
+			ret.put(k1, compK1);
+		}
+		return ret;
+	}
+	 
 	
 	public static <K, V1, V2> Map<K,V2> transformMap(Map<K, V1> originalMap, Converter<V1, V2> conv){
 		

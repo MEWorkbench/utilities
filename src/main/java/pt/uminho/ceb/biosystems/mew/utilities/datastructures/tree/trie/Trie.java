@@ -58,7 +58,6 @@ public class Trie {
 	/**
 	 * Creates a new case sensitive Trie
 	 * 
-	 * @param ignoreCase
 	 */
 	public Trie() {
 		this(false);
@@ -101,7 +100,7 @@ public class Trie {
 	/**
 	 * Adds an array of words to the list.
 	 * 
-	 * @param word
+	 * @param words
 	 *            The words to add.
 	 */
 	public void addAll(String... words) {
@@ -283,7 +282,7 @@ public class Trie {
 	}
 
 	/**
-	 * Returns the size of this list;
+	 * @return the size of this list;
 	 */
 	public int size() {
 		return size;
@@ -364,7 +363,7 @@ public class Trie {
 		}
 	}
 
-	/**
+	/*
 	 * Searches a string for words present in the trie and replaces them with
 	 * stars (asterixes).
 	 * 
@@ -448,6 +447,8 @@ public class Trie {
 	 *            into spaces.
 	 * @param strip2
 	 *            Like strip1
+	 *            
+	 * @throws IOException exception
 	 */
 	public void addFile(String file, String strip1, String strip2)
 	throws IOException {
@@ -469,7 +470,7 @@ public class Trie {
 		in.close();
 	}
 
-	/**
+	/*
 	 * Writes this trie's contents to a file
 	 * 
 	 * @param file
@@ -478,6 +479,7 @@ public class Trie {
 	 *            Every word printed is followed by this delimiter
 	 * @param quotes
 	 *            Every word printed is wrapped in this string
+	 * @throws IOException
 	 */
 	public void writeFile(String file, String delimiter, String quoteMark)
 	throws IOException {

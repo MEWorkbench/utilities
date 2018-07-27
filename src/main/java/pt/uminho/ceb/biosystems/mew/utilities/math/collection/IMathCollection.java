@@ -7,7 +7,7 @@ import java.util.Collection;
  * <br>The Mean and the Sum are some of the examples for this interface implementation
  * @author hgiesteira
  *
- * @param <T>
+ * @param <T> type of element
  */
 public interface IMathCollection<T> {
 	
